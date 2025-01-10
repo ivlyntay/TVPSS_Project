@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.example.model.Crew;
-
+import com.example.model.User;
 public class HibernateCF {
     static SessionFactory sessionFactory = null;
 
@@ -14,7 +14,7 @@ public class HibernateCF {
             config.configure("hibernate.cfg.xml");
             config.addAnnotatedClass(Crew.class);
             //config.addAnnotatedClass(Program.class);
-            //config.addAnnotatedClass(User.class);
+            config.addAnnotatedClass(User.class);
 
             sessionFactory = config.buildSessionFactory();
         }

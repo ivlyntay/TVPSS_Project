@@ -1,12 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Create an Account</title>
-<link rel="stylesheet" href="<c:url value='/css/reg_login.css' />">
+<link rel="stylesheet" th:href="@{/css/reg_login.css}">
 <script>
 function toggleFields() {
     const role = document.getElementById('role').value;
@@ -20,27 +16,7 @@ function toggleFields() {
 }
 </script>
 <style>
-.login-prompt {
-	margin-top: 15px;
-	font-size: 13px;
-	color: #666;
-	text-align: center;
-}
-
-.login-prompt span {
-	margin-right: 5px;
-}
-
-.login-prompt a {
-	color: #4880FF;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-.login-prompt a:hover {
-	text-decoration: underline;
-}
-
+/* Include the same styles as before */
 body {
 	background-color: #4880FF;
 	font-family: Arial, sans-serif;
@@ -78,20 +54,20 @@ body {
 		</div>
 		<h2>Create an Account</h2>
 		<br>
-		<form action="UserController" method="post" class="register-form">
-			<input type="hidden" name="action" value="register"> 
+		<form th:action="@{/register}" method="post" class="register-form">
+
 			
-			<label for="fullName">Full Name</label> 
-			<input type="text" id="fullname" name="fullname" required> 
+			<label for="full_name">Full Name</label> 
+			<input type="text" id="full_name" name="full_name" required> 
 			
-			<label for="icNumber">IC Number</label> 
-			<input type="text" id="icNumber" name="icNumber" required>
+			<label for="ic_number">IC Number</label> 
+			<input type="text" id="ic_number" name="ic_number" required>
 			
 			<label for="email">Email Address</label> 
 			<input type="text" id="email" name="email" required> 
 			
-			<label for="contactNumber">Contact Number</label> 
-			<input type="text" id="contactNumber" name="contactNumber" required> 
+			<label for="contact_number">Contact Number</label> 
+			<input type="text" id="contact_number" name="contact_number" required> 
 			
 			<label for="role">Role</label>
 			<select id="role" name="role" required onchange="toggleFields()">
@@ -101,8 +77,8 @@ body {
 			</select>
 
 			<div id="schoolFields">
-				<label for="schoolName">School Name</label> 
-				<input type="text" id="schoolName" name="schoolName"> 
+				<label for="school_name">School Name</label> 
+				<input type="text" id="school_name" name="school_name"> 
 				
 				<label for="district">District</label> 
 				<select id="district" name="district">
@@ -115,26 +91,25 @@ body {
 					<option value="Mersing">Mersing</option>
 					<option value="Pontian">Pontian</option>
 					<option value="Kulai Jaya">Kulai Jaya</option>
-					<option value="Kotat Tnggi">Kota Tinggi</option>
+					<option value="Kota Tinggi">Kota Tinggi</option>
 					<option value="Johor Bahru">Johor Bahru</option>
 				</select>
 			</div>
 
-			
-			
 			<label for="password">Password</label> 
 			<input type="password" id="password" name="password" required>
 
 			<button type="submit">Register</button>
 
 			<div class="login-prompt">
-				<span>Already have an account?</span> <a href="login.jsp">Login</a>
+				<span>Already have an account?</span> <a th:href="@{/login}">Login</a>
+
 			</div>
 		</form>
 
-		<c:if test="${not empty message}">
-			<p>${message}</p>
-		</c:if>
+		<div th:if="${message != null}">
+			<p th:text="${message}"></p>
+		</div>
 	</div>
 </body>
 </html>

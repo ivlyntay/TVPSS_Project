@@ -14,3 +14,21 @@ INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_numb
 VALUES 
 ('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465'),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
+
+CREATE TABLE user (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   full_name VARCHAR(255) NOT NULL,
+   ic_number VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL UNIQUE,
+   contact_number VARCHAR(15) NOT NULL,
+   role VARCHAR(255) NOT NULL,
+   school_name VARCHAR(100),
+   district VARCHAR(100),
+   password VARCHAR(255),
+   photo VARCHAR(255) DEFAULT 'default.jpg',
+   ytbName VARCHAR(255) ,
+   ytbLink VARCHAR(255)
+);
+INSERT INTO user (full_name, ic_number, email, contact_number, role, password)
+VALUES
+('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456');
