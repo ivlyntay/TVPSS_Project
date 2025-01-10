@@ -78,11 +78,11 @@
                             <label for="role">Role</label>
                             <select id="role" name="role" required>
                                 <option value="">Select role</option>
-                                <option value="reporter">Reporter</option>
-                                <option value="assistant-director">Assistant Director</option>
-                                <option value="camera-operator">Camera Operator</option>
-                                <option value="script-writer">Script Writer</option>
-                                <option value="video-editor">Video Editor</option>
+                                <option value="Reporter">Reporter</option>
+                                <option value="Assistant Director">Assistant Director</option>
+                                <option value="Camera Operator">Camera Operator</option>
+                                <option value="Script Writer">Script Writer</option>
+                                <option value="Video Editor">Video Editor</option>
                             </select>
                         </div>
                     </div>

@@ -34,7 +34,7 @@
 		            <p th:text="${message}"></p>
 		        </div>
                 <form th:action="@{/school/crew/update}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="crewId" th:value="${crew.id}">
+                    <input type="hidden" name="id" th:value="${crew.id}">
                     
                     <!-- Profile Image Upload -->
                     <div class="image-upload">
@@ -43,9 +43,8 @@
 					         alt="Crew Profile" 
 					         class="crew-image">
 					    
-					    <!-- Display the photo upload field -->
-					    <label for="crew-photo" class="upload-label">Upload Crew Photo</label>
-					    <input type="file" id="crew-photo" name="crewPhoto" accept="image/*">
+					    <label for="crew-photo" class="upload-label">Update Crew Photo</label>
+                        <input type="file" id="crew-photo" name="crewPhoto" style="opacity: 0" accept="image/*">
 					</div>
                     <div class="form-grid">
                         <!-- Row 1 -->
@@ -87,13 +86,13 @@
                         <div class="form-group">
                             <label for="role">Role</label>
                             <select id="role" name="role">
-                                <option value="">Select Role</option>
-                                <option value="reporter" th:selected="${crew.role == 'reporter'}">Reporter</option>
-                                <option value="assistant-director" th:selected="${crew.role == 'assistant-director'}">Assistant Director</option>
-                                <option value="camera-operator" th:selected="${crew.role == 'camera-operator'}">Camera Operator</option>
-                                <option value="script-writer" th:selected="${crew.role == 'script-writer'}">Script Writer</option>
-                                <option value="video-editor" th:selected="${crew.role == 'video-editor'}">Video Editor</option>
-                            </select>
+							    <option value="">Select Role</option>
+							    <option value="Reporter" th:selected="${crew.role == 'Reporter'}">Reporter</option>
+							    <option value="Assistant Director" th:selected="${crew.role == 'Assistant Director'}">Assistant Director</option>
+							    <option value="Camera Operator" th:selected="${crew.role == 'Camera Operator'}">Camera Operator</option>
+							    <option value="Script Writer" th:selected="${crew.role == 'Script Writer'}">Script Writer</option>
+							    <option value="Video Editor" th:selected="${crew.role == 'Video Editor'}">Video Editor</option>
+							</select>
                         </div>
 
                         <!-- Form Buttons -->
@@ -106,5 +105,32 @@
             </div>
         </main>
     </div>
+    <script> 
+    // Get references to elements
+    let inputFile = document.getElementById("crew-photo");
+    let crewImage = document.querySelector(".crew-image");
+    let cameraIcon = document.getElementById("camera-icon");
+
+    // Handle file input change (when a file is selected)
+    inputFile.onchange = function() {
+        if (inputFile.files && inputFile.files[0]) {
+            // Create a URL for the selected file
+            let fileURL = URL.createObjectURL(inputFile.files[0]);
+
+            // Update the image preview
+            crewImage.src = fileURL;
+            crewImage.style.display = 'block'; // Show the image preview
+
+            // Hide the camera icon once the image is selected
+            cameraIcon.style.display = 'none';
+        }
+    }
+
+    // Optional: Add functionality to show the camera icon again when no file is selected
+    inputFile.onfocus = function() {
+        cameraIcon.style.display = 'block'; // Show camera icon when input is focused
+    }
+</script>
+
 </body>
 </html>
