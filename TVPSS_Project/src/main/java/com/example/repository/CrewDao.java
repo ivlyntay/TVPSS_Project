@@ -41,21 +41,15 @@ public class CrewDao {
         }
     }
 
-    // Update a crew member
     public void updateCrewMember(Crew crewMember) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
 
             // Ensure the crew member already exists before updating
             Crew existingCrew = session.get(Crew.class, crewMember.getId());
             if (existingCrew != null) {
-                // Only update the photo if a new one is uploaded
-                if (crewMember.getPhoto() != null && !crewMember.getPhoto().isEmpty()) {
-                    existingCrew.setPhoto(crewMember.getPhoto());
-                }
-
-                // Update other fields as necessary
+                // Update all editable fields
                 existingCrew.setFullName(crewMember.getFullName());
                 existingCrew.setIcNumber(crewMember.getIcNumber());
                 existingCrew.setEmail(crewMember.getEmail());
@@ -63,17 +57,22 @@ public class CrewDao {
                 existingCrew.setGender(crewMember.getGender());
                 existingCrew.setRole(crewMember.getRole());
 
+                // Update the photo if a new photo is provided
+                if (crewMember.getPhoto() != null && !crewMember.getPhoto().isEmpty()) {
+                    existingCrew.setPhoto(crewMember.getPhoto());
+                }
+
                 // Save the updated crew member
                 session.update(existingCrew);
             }
-            
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
+            // Optionally log the exception for debugging
             throw e;
         }
     }
-
     // Delete a crew member by ID
     public void deleteCrewMember(int id) {
         Transaction transaction = null;

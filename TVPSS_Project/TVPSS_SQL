@@ -12,5 +12,5 @@ CREATE TABLE crew_member (
 );
 INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number)
 VALUES 
-('Christine', 'camera-operator', 'christ@example.com', '01110746482', 'Male', '030506040465'),
-('Daniel', 'script-writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
+('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465'),
+('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
