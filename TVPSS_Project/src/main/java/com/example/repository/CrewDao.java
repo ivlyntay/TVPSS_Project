@@ -24,7 +24,9 @@ public class CrewDao {
     // Get crew member by ID
     public Crew getCrewMemberById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Crew.class, id);
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user WHERE c.id = :id", Crew.class)
+                          .setParameter("id", id)
+                          .uniqueResult();
         }
     }
 

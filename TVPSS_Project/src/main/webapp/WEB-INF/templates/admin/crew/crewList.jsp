@@ -77,7 +77,7 @@
                             <td th:text="${crew.contactNumber}"></td>
                             <td>
                                 <!-- View Icon -->
-                                <button class="action-btn" th:onclick="|window.location.href='@{/admin/viewCrew/{id}(id=${crew.id})}'|">
+                                <button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/admin/crew/view/${crew.id}'|">
                                     <i class="bi bi-eye"></i> <!-- View icon -->
                                 </button>
                             </td>

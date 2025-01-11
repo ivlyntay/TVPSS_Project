@@ -62,8 +62,7 @@
                         </table>
                     </div>
                     <div class="form-buttons">
-                        <!-- Updated Back Button -->
-                        <a th:href="@{/school/crew/crewList}" class="btn btn-primary">Back</a>
+                        <button type="button" class="btn btn-primary" th:onclick="|window.location.href='@{/school/crew/crewList}'|">Back</button>
                     </div>
                 </div>
             </section>

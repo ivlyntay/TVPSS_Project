@@ -39,11 +39,12 @@ public class Crew_TVPSSController {
 
     @GetMapping("/view/{id}")
     public String viewCrew(@PathVariable int id, Model model) {
-        Crew crew = crewService.getCrewMemberById(id);  // Fetch crew member by ID from the service layer
+        Crew crew = crewService.getCrewMemberById(id);
         if (crew != null) {
             model.addAttribute("crew", crew);
-            return "admin/crew/viewCrew"; // View page for a specific crew member
+            model.addAttribute("schoolName", crew.getUser().getSchoolName());  // Assuming getUser() gives you the associated User object
+            return "admin/crew/viewCrew";
         }
-        return "redirect:/admin/crew/crewList"; // Redirect to crew list if not found
+        return "redirect:/admin/crew/crewList";
     }
 }
