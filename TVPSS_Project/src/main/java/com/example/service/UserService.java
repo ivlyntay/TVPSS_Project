@@ -38,4 +38,28 @@ public class UserService {
     public User findById(int id) {
         return userDao.findById(id);
     }
+    // Add the updateUser method here
+    public void updateUser(User user) {
+        try {
+            User existingUser = userDao.findById(user.getId());
+            if (existingUser != null) {
+                // Update user fields (you can customize the fields that need to be updated)
+                existingUser.setFullName(user.getFullName());
+                existingUser.setIcNumber(user.getIcNumber());
+                existingUser.setSchoolName(user.getSchoolName());
+                existingUser.setEmail(user.getEmail());
+                existingUser.setContactNumber(user.getContactNumber());
+                existingUser.setDistrict(user.getDistrict());
+                existingUser.setYoutubeLink(user.getYoutubeLink());
+                existingUser.setYoutubeChannelName(user.getYoutubeChannelName());
+                // You can add more fields here if necessary
+
+                // Save the updated user object
+                userDao.saveUser(existingUser);  // Save to the database
+            }
+        } catch (Exception e) {
+            System.out.println("Error updating user: " + e.getMessage());
+            throw new RuntimeException("Error updating user");
+        }
+    }
 }
