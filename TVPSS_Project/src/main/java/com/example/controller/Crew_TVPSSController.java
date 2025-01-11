@@ -16,10 +16,24 @@ public class Crew_TVPSSController {
     private CrewService crewService;
 
     @GetMapping("/crewList")
-    public String listCrew(Model model) {
-        List<Crew> crewList = crewService.getAllCrewMembers();  // Get crew members from the service layer
+    public String listCrew(
+            @RequestParam(value = "schoolName", required = false) String schoolName, 
+            Model model) {
+        List<Crew> crewList;
+        if (schoolName != null && !schoolName.isEmpty()) {
+            crewList = crewService.getCrewMembersBySchoolName(schoolName); // Filter by school name
+        } else {
+            crewList = crewService.getAllCrewMembers(); // Fetch all crew members
+        }
+
+        // Fetch unique school names for the dropdown
+        List<String> uniqueSchools = crewService.getUniqueSchoolNames();
+
         model.addAttribute("crewList", crewList);
+        model.addAttribute("uniqueSchools", uniqueSchools);
+        model.addAttribute("selectedSchool", schoolName); // Preserve selected value
         model.addAttribute("activePage", "crewList");
+
         return "admin/crew/crewList"; // Return view name for crew list page
     }
 

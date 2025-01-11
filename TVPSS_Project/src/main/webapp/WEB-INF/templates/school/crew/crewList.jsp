@@ -46,7 +46,7 @@
                         <option value="Script Writer">Script Writer</option>
                         <option value="Video Editor">Video Editor</option>
                     </select>
-                    <button class="reset-button">
+                    <button class="reset-button" th:onclick="|window.location.href='@{/school/crew/crewList}'|">
                         <i class="bi bi-arrow-clockwise"></i> Reset Filter
                     </button>
                 </div>

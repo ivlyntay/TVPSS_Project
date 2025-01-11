@@ -104,4 +104,20 @@ public class CrewDao {
                           .uniqueResult();
         }
     }
+    
+    public List<Crew> getCrewMembersBySchoolName(String schoolName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user u WHERE u.schoolName = :schoolName", Crew.class)
+                          .setParameter("schoolName", schoolName)
+                          .list();
+        }
+    }
+
+    // New: Get unique school names
+    public List<String> getUniqueSchoolNames() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT DISTINCT u.schoolName FROM User u WHERE u.schoolName IS NOT NULL", String.class)
+                          .list();
+        }
+    }
 }
