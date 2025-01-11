@@ -51,47 +51,58 @@
        <h2>Create an Account</h2>
        <br>
        <!-- Form submission -->
-       <form th:action="@{/register}" method="post" class="register-form">
-           <label for="full_name">Full Name</label>
-           <input type="text" id="full_name" name="full_name" required>
-           <label for="ic_number">IC Number</label>
-           <input type="text" id="ic_number" name="ic_number" required>
-           <label for="email">Email Address</label>
-           <input type="email" id="email" name="email" required>
-           <label for="contact_number">Contact Number</label>
-           <input type="text" id="contact_number" name="contact_number" required>
-           <label for="role">Role</label>
-           <select id="role" name="role" required onchange="toggleFields()">
-               <option value="">Select Role</option>
-               <option value="schoolAdmin">School Admin</option>
-               <option value="tvpssAdmin">TVPSS Admin</option>
-           </select>
-           <div id="schoolFields">
-               <label for="school_name">School Name</label>
-               <input type="text" id="school_name" name="school_name">
-               <label for="district">District</label>
-               <select id="district" name="district">
-                   <option value="">Select District</option>
-                   <option value="Ledang">Ledang</option>
-                   <option value="Segamat">Segamat</option>
-                   <option value="Muar">Muar</option>
-                   <option value="Batu Pahat">Batu Pahat</option>
-                   <option value="Kluang">Kluang</option>
-                   <option value="Mersing">Mersing</option>
-                   <option value="Pontian">Pontian</option>
-                   <option value="Kulai Jaya">Kulai Jaya</option>
-                   <option value="Kota Tinggi">Kota Tinggi</option>
-                   <option value="Johor Bahru">Johor Bahru</option>
-               </select>
-           </div>
-           <label for="password">Password</label>
-           <input type="password" id="password" name="password" required>
-           <button type="submit">Register</button>
-           <div class="login-prompt">
-               <span>Already have an account?</span>
-               <a th:href="@{/login}">Login</a>
-           </div>
-       </form>
+       <form th:action="@{/register}" method="post" th:object="${user}" class="register-form">
+   <label for="full_name">Full Name</label>
+   <input type="text" id="full_name" th:field="*{fullName}" required>
+
+   <label for="ic_number">IC Number</label>
+   <input type="text" id="ic_number" th:field="*{icNumber}" required>
+
+   <label for="email">Email Address</label>
+   <input type="email" id="email" th:field="*{email}" required>
+
+   <label for="contact_number">Contact Number</label>
+   <input type="text" id="contact_number" th:field="*{contactNumber}" required>
+
+   <select id="role" th:field="*{role}" required onchange="toggleFields()">
+    <option value="">Select Role</option>
+    <option value="schoolAdmin">School Admin</option>
+    <option value="tvpssAdmin">TVPSS Admin</option>
+	</select>
+
+
+
+   <div id="schoolFields">
+       <label for="school_name">School Name</label>
+       <input type="text" id="school_name" th:field="*{schoolName}">
+
+       <label for="district">District</label>
+       <select id="district" th:field="*{district}">
+           <option value="">Select District</option>
+           <option value="Ledang">Ledang</option>
+           <option value="Segamat">Segamat</option>
+           <option value="Muar">Muar</option>
+           <option value="Batu Pahat">Batu Pahat</option>
+           <option value="Kluang">Kluang</option>
+           <option value="Mersing">Mersing</option>
+           <option value="Pontian">Pontian</option>
+           <option value="Kulai Jaya">Kulai Jaya</option>
+           <option value="Kota Tinggi">Kota Tinggi</option>
+           <option value="Johor Bahru">Johor Bahru</option>
+       </select>
+   </div>
+
+   <label for="password">Password</label>
+   <input type="password" id="password" th:field="*{password}" required>
+
+   <button type="submit">Register</button>
+
+   <div class="login-prompt">
+       <span>Already have an account?</span>
+       <a th:href="@{/login}">Login</a>
+   </div>
+</form>
+
        <!-- Display success or error messages -->
        <div th:if="${message != null}">
            <p style="color: green;" th:text="${message}"></p>

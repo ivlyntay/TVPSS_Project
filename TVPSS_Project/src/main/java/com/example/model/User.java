@@ -7,42 +7,43 @@ import java.util.Collections;
 @Table(name = "user")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private int id;
 
-    @Column(name = "full_name")
-    private String fullName;
+	    @Column(name = "full_name")
+	    private String fullName;
 
-    @Column(name = "ic_number")
-    private String icNumber;
+	    @Column(name = "ic_number")
+	    private String icNumber;
 
-    @Column(name = "email")
-    private String email;
+	    @Column(name = "email")
+	    private String email;
 
-    @Column(name = "contact_number")
-    private String contactNumber;
+	    @Column(name = "contact_number")
+	    private String contactNumber;
 
-    @Column(name = "role")
-    private String role;
+	    @Column(name = "role")
+	    private String role;
 
-    @Column(name = "school_name")
-    private String schoolName;
+	    @Column(name = "school_name")
+	    private String schoolName;
 
-    @Column(name = "district")
-    private String district;
+	    @Column(name = "district")
+	    private String district;
 
-    @Column(name = "password")
-    private String password;
+	    @Column(name = "password")
+	    private String password;
 
-    @Column(name = "photo")
-    private String photo;
+	    @Column(name = "photo")
+	    private String photo;
 
-    @Column(name = "ytbName")
-    private String ytbName;
+	    @Column(name = "ytbLink")
+	    private String ytbLink;
 
-    @Column(name = "ytbLink")
-    private String ytbLink;
+	    @Column(name = "ytbName")
+	    private String ytbName;
+
 	
     public User() {}
    public User(int id, String fullName, String icNumber, String schoolName, String district,
@@ -140,6 +141,10 @@ public class User {
 	public String getRole() {
 	    return role;
 	}
+	public void setRole(String role) {
+	    this.role = role;
+	}
+
 	// New Method to combine YouTube name and link
 	public String getFormattedYoutubeLink() {
 		if (ytbLink != null && ytbName != null) {

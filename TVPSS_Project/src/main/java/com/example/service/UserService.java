@@ -12,7 +12,8 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
-
+    
+    
     public boolean registerUser(User user) {
         if (userDao.findByEmail(user.getEmail()) != null) {
             return false; // Email already exists
