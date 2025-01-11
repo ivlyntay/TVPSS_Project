@@ -80,7 +80,7 @@
 									<button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/school/crew/edit/${crew.id}'|">
 									    <i class="bi bi-pencil-square"></i> <!-- Edit icon -->
 									</button>
-									<button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this crew member?')) window.location.href='/TVPSS_Project/school/crew/delete/${crew.id}'|">
+									<button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this crew member?')) window.location.href='/TVPSS_Project/school/crew/delete/{id}(id=${crew.id}'|">
 									    <i class="bi bi-trash"></i> <!-- Delete icon -->
 									</button>
                                 </td>
