@@ -71,7 +71,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="crew : ${crewList}">
-                            <td th:text="${crew.schoolName}">SMK Bandar Kota Tinggi</td>
+                            <td th:text="${crew.user.schoolName}">SMK Bandar Kota Tinggi</td>
                             <td th:text="${crew.fullName}">Ivlyn Tay Wan Rou</td>
                             <td th:text="${crew.role}">Script Writer</td>
                             <td th:text="${crew.email}">ivlyn@graduate.utm.my</td>

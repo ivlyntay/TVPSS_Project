@@ -15,9 +15,9 @@ public class CrewDao {
     private SessionFactory sessionFactory;
 
     // Get all crew members
-    public List<Crew> getAllCrewMembers() {
+    public List<Crew> getAllCrewMembersWithUser() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Crew", Crew.class).list();
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user", Crew.class).list();
         }
     }
 

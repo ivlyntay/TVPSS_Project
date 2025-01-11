@@ -20,7 +20,7 @@ public class CrewService {
 
     // Get all crew members
     public List<Crew> getAllCrewMembers() {
-        return crewMemberDao.getAllCrewMembers();
+        return crewMemberDao.getAllCrewMembersWithUser();
     }
 
     // Get a crew member by ID
