@@ -48,4 +48,10 @@ public class UserDao {
                           .uniqueResult();
         }
     }
+
+    public User findById(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(User.class, id);
+        }
+    }
 }

@@ -86,6 +86,8 @@
                             </select>
                         </div>
                     </div>
+                    <input type="hidden" name="userId" th:value="${session.userId}" />
+                    
                     <!-- Form Buttons -->
                     <div class="form-buttons">
                         <button type="submit" class="btn btn-primary" name="action" value="add">Add Now</button>
