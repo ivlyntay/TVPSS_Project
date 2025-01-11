@@ -79,8 +79,8 @@
                             <label for="gender">Gender</label>
                             <select id="gender" name="gender">
                                 <option value="">Select Gender</option>
-                                <option value="male" th:selected="${crew.gender == 'male'}">Male</option>
-                                <option value="female" th:selected="${crew.gender == 'female'}">Female</option>
+                                <option value="Male" th:selected="${crew.gender == 'Male'}">Male</option>
+                                <option value="Female" th:selected="${crew.gender == 'Female'}">Female</option>
                             </select>
                         </div>
                         <div class="form-group">

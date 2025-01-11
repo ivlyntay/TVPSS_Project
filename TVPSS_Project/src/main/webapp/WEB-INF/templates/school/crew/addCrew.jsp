@@ -70,8 +70,8 @@
                             <label for="gender">Gender</label>
                             <select id="gender" name="gender" required>
                                 <option value="">Select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -86,7 +86,6 @@
                             </select>
                         </div>
                     </div>
-
                     <!-- Form Buttons -->
                     <div class="form-buttons">
                         <button type="submit" class="btn btn-primary" name="action" value="add">Add Now</button>
