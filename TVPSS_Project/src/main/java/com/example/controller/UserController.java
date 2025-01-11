@@ -53,7 +53,7 @@ public class UserController {
 
         User user = (User) session.getAttribute("user");  // Retrieve the logged-in user from the session
         model.addAttribute("user", user);  // Pass the user object to the form
-        return "editProfile";  // The JSP or Thymeleaf template for editing the profile
+        return "school/profile/editProfile";  // The JSP or Thymeleaf template for editing the profile
     }
 
     // Update Profile - Handle the form submission to update the user's details
@@ -64,18 +64,25 @@ public class UserController {
         }
 
         try {
-            User loggedInUser = (User) session.getAttribute("user");  // Retrieve the logged-in user from the session
-            user.setId(loggedInUser.getId());  // Ensure the user ID is preserved during the update
-            userService.updateUser(user);  // Update the user in the database
+            User loggedInUser = (User) session.getAttribute("user");
+            user.setId(loggedInUser.getId());  // Preserve the user ID
 
-            // Update the session with the new user details
+            // Debug: Print user data before update
+            System.out.println("Updating user: " + user);
+
+            userService.updateUser(user);  // Update in the database
+
+            // Update session user data
             session.setAttribute("user", user);
 
+            // Add success message
             redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
-            return "redirect:/school/profile";  // Redirect to the profile page after successful update
+            return "redirect:/school/profile/profile";  // Redirect to profile page
         } catch (Exception e) {
+            // Add error message
             redirectAttributes.addFlashAttribute("error", "Error updating profile: " + e.getMessage());
-            return "redirect:/school/editProfile";  // Redirect back to the edit profile page if an error occurs
+            return "redirect:/school/profile/editProfile";  // Redirect back to edit form
         }
     }
+
 }

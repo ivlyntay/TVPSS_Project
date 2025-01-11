@@ -11,11 +11,24 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <th:block th:include="sidebar_profile :: sidebar"></th:block> <!-- Include sidebar using Thymeleaf -->
-
+        <!-- <th:block th:include="sidebar_profile :: sidebar"></th:block> Include sidebar using Thymeleaf -->
+		<div th:replace="~{school_sidebar :: school_sidebar('profile')}"></div>
+        
         <!-- Main Content -->
         <main class="content">
-            <th:block th:include="header_school :: header"></th:block> <!-- Include header using Thymeleaf -->
+            <!-- header -->
+            <header class="header">
+                <div class="header-right">
+                    <div class="profile">
+                        <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
+                        <div class="header-profile">
+                            <span class="profile-name">Moni Roy</span><br>
+                            <span class="role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
             <h1>Profile</h1>
             <div class="form-container">
                 <!-- Profile Image -->
@@ -70,7 +83,7 @@
 
                 <!-- Button to edit profile -->
                 <div class="form-buttons">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='/school/profile/editProfile'">Edit</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/TVPSS_Project/school/profile/editProfile'">Edit</button>
                 </div>
             </div>
         </main>
