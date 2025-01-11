@@ -36,4 +36,6 @@ CREATE TABLE user (
 );
 INSERT INTO user (full_name, ic_number, email, contact_number, role, password)
 VALUES
-('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456');
+('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456'),
+('Ivlyn Tay Wan Rou', '030506040454', 'ivlyn@graduate.utm.my', '01110746482', 'schoolAdmin', '123456'),
+('Ali Tvpss Admin', '770731046485', 'tvpssadmin@gmail.com', '0102039966', 'tvpssAdmin', '123456');
