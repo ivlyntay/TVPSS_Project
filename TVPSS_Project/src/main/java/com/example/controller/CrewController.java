@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.model.Crew;
 import com.example.model.User;
 import com.example.service.CrewService;
+import com.example.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ public class CrewController {
 
     @Autowired
     private CrewService crewService;
+    @Autowired
+    private UserService userService;
 
     // Ensure the user is authenticated before accessing the crew list
     private boolean isAuthenticated(HttpSession session) {
@@ -68,23 +72,40 @@ public class CrewController {
     }
 
     @PostMapping("/add")
-    public String addCrew(@ModelAttribute Crew crew, @RequestParam("crewPhoto") MultipartFile file, RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
-        if (!isAuthenticated(session)) {
-            return "redirect:/login";  // Redirect to login if not authenticated
+    public String addCrew(@ModelAttribute Crew crew, 
+                          @RequestParam("crewPhoto") MultipartFile file, 
+                          RedirectAttributes redirectAttributes, 
+                          HttpSession session) {
+        // Retrieve userId from session
+        Integer userId = (Integer) session.getAttribute("userId"); // Change Long to Integer
+
+        if (userId == null) {
+            redirectAttributes.addFlashAttribute("error", "User ID is missing.");
+            return "redirect:/school/crew/add";
         }
 
-        if (!isValidEmail(crew.getEmail()) || !isValidContact(crew.getContactNumber())) {
-            redirectAttributes.addFlashAttribute("error", "Invalid email or contact number");
-            return "redirect:/school/crew/add"; // Redirect to add form if validation fails
+        // Fetch User entity
+        User user = userService.findById(userId);
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("error", "User not found.");
+            return "redirect:/school/crew/add";
         }
 
-        String photoName = crewService.savePhoto(file); // Call savePhoto method from service
-        crew.setPhoto(photoName); // Set photo name
+        crew.setUser(user); // Set the User object in Crew
 
-        crewService.saveCrewMember(crew);  // Use service to save the new crew member
-        redirectAttributes.addFlashAttribute("message", "Crew added successfully");
-        return "redirect:/school/crew/crewList"; // Redirect to crew list after successful addition
+        try {
+            String photoName = crewService.savePhoto(file);
+            crew.setPhoto(photoName);
+            crewService.saveCrewMember(crew);
+            redirectAttributes.addFlashAttribute("message", "Crew added successfully.");
+            return "redirect:/school/crew/crewList";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error adding crew: " + e.getMessage());
+            return "redirect:/school/crew/add";
+        }
     }
+
+
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, HttpSession session, Model model) {

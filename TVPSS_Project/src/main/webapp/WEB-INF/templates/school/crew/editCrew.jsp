@@ -33,7 +33,7 @@
 		        <div th:if="${message}" class="alert alert-success">
 		            <p th:text="${message}"></p>
 		        </div>
-                <form th:action="@{/school/crew/update}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/school/crew/update}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
                     <input type="hidden" name="id" th:value="${crew.id}">
                     
                     <!-- Profile Image Upload -->
@@ -129,6 +129,15 @@
     // Optional: Add functionality to show the camera icon again when no file is selected
     inputFile.onfocus = function() {
         cameraIcon.style.display = 'block'; // Show camera icon when input is focused
+    }
+    
+    function confirmSubmit() {
+        var confirmation = confirm("Are you sure want to update this crew?");
+        if (confirmation) {
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
+        }
     }
 </script>
 
