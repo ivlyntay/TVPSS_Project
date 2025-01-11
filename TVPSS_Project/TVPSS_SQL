@@ -1,25 +1,8 @@
 CREATE DATABASE tvpss;
 
-CREATE TABLE crew_member (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    contact_number VARCHAR(15) NOT NULL,
-    gender VARCHAR(10) NOT NULL,
-    ic_number VARCHAR(20) NOT NULL,
-    photo VARCHAR(255) DEFAULT 'default.jpg',
-    user_id INT,
-    FOREIGN KEY (user_id) REFERENCES user(id)
-    ON DELETE CASCADE  -- Automatically delete crew_member when a user is deleted
-    ON UPDATE CASCADE  -- Automatically update crew_member when the user's id is updated
-);
+USE tvpss;
 
-INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number,user_id)
-VALUES 
-('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465',1),
-('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213',2);
-
+-- Create the user table first
 CREATE TABLE user (
    id INT AUTO_INCREMENT PRIMARY KEY,
    full_name VARCHAR(255) NOT NULL,
@@ -31,11 +14,34 @@ CREATE TABLE user (
    district VARCHAR(100),
    password VARCHAR(255),
    photo VARCHAR(255) DEFAULT 'default.jpg',
-   ytbName VARCHAR(255) ,
+   ytbName VARCHAR(255),
    ytbLink VARCHAR(255)
 );
+
+-- Insert data into the user table
 INSERT INTO user (full_name, ic_number, email, contact_number, role, password)
 VALUES
 ('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456'),
-('Ivlyn Tay Wan Rou', '030506040454', 'ivlyn@graduate.utm.my', '01110746482', 'schoolAdmin', '123456'),
-('Ali Tvpss Admin', '770731046485', 'tvpssadmin@gmail.com', '0102039966', 'tvpssAdmin', '123456');
+('Wong Mei Ling', '754506040465', 'wml@gmail.com', '0168546482', 'schoolAdmin', '123456');
+
+-- Create the crew_member table referencing the user table
+CREATE TABLE crew_member (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    contact_number VARCHAR(15) NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    ic_number VARCHAR(20) NOT NULL,
+    photo VARCHAR(255) DEFAULT 'default.jpg',
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+-- Insert data into the crew_member table
+INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number, user_id)
+VALUES 
+('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
+('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 2);
