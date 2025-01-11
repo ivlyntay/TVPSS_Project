@@ -26,17 +26,9 @@ public class RegisterController {
     @PostMapping("/register")
     public String registerUser(
             @ModelAttribute("user") User user,
-            RedirectAttributes redirectAttributes,
-            HttpSession session) {
-    	
-    	  System.out.println("User role: " + user.getRole());
-    	  
-        // Retrieve userId from session
-        Integer userId = (Integer) session.getAttribute("userId"); // Ensure session handling
-        if (userId == null) {
-            redirectAttributes.addFlashAttribute("error", "User ID is missing. Please login to register.");
-            return "redirect:/register";
-        }
+            RedirectAttributes redirectAttributes) { // Remove HttpSession if not needed
+
+        System.out.println("User role: " + user.getRole());
 
         // Validate email format
         if (!isValidEmail(user.getEmail())) {
@@ -55,20 +47,12 @@ public class RegisterController {
             redirectAttributes.addFlashAttribute("error", "Contact number cannot be empty.");
             return "redirect:/register";
         }
-        
 
         // Check if the role is not set by the user, set it to a default value
         if (user.getRole() == null || user.getRole().isEmpty()) {
             user.setRole("tvpssAdmin");  // Set your default role
         }
 
-        // Check if the role is still empty (shouldn't be after the default value is set)
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Role is required.");
-            return "redirect:/register";
-        }
-        
-        // Attempt to register the user
         try {
             boolean isRegistered = userService.registerUser(user);
             if (isRegistered) {
@@ -83,6 +67,7 @@ public class RegisterController {
             return "redirect:/register";
         }
     }
+
 
     private boolean isValidEmail(String email) {
         return email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\\.[a-zA-Z]{2,6}$");
