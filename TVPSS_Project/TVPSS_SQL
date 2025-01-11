@@ -8,29 +8,12 @@ CREATE TABLE crew_member (
     contact_number VARCHAR(15) NOT NULL,
     gender VARCHAR(10) NOT NULL,
     ic_number VARCHAR(20) NOT NULL,
-    photo VARCHAR(255) DEFAULT 'default.jpg',
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON UPDATE CASCADE
-        ON DELETE RESTRICT
+    photo VARCHAR(255) DEFAULT 'default.jpg'
 );
-
-CREATE TABLE crew_member (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    contact_number VARCHAR(15) NOT NULL,
-    gender VARCHAR(10) NOT NULL,
-    ic_number VARCHAR(20) NOT NULL,
-    photo VARCHAR(255) DEFAULT 'default.jpg',
-);
-
-
-INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number, user_id)
+INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number)
 VALUES 
-('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
-('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 1);
+('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465'),
+('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
 
 CREATE TABLE user (
    id INT AUTO_INCREMENT PRIMARY KEY,
