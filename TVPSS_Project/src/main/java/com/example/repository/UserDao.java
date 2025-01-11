@@ -16,13 +16,15 @@ public class UserDao {
 
     public boolean saveUser(User user) {
         try {
+            System.out.println("Attempting to save user: " + user);
             entityManager.persist(user);
             return true;
         } catch (Exception e) {
-            e.printStackTrace(); // Log the error
-            return false;        // Indicate failure
+            e.printStackTrace();
+            return false;
         }
     }
+
 
     
     public User findByEmail(String email) {
