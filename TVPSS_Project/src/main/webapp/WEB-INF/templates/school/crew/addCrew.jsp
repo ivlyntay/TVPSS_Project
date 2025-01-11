@@ -29,7 +29,7 @@
             <h1>Add New Crew</h1>
             <div class="form-container">
                 <!-- Form Fields -->
-                <form th:action="@{/school/crew/add}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/school/crew/add}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
                     <div class="form-group image-upload">
                         <div class="image-circle" id="image-circle">
                             <i class="bi bi-camera-fill" id="camera-icon" style="font-size: 30px;"></i>
@@ -107,6 +107,14 @@
             profilePic.src = URL.createObjectURL(inputFile.files[0]);
             profilePic.style.display = 'block';
             cameraIcon.style.display = 'none'; // Hide camera icon once image is uploaded
+        }
+    }
+    function confirmSubmit() {
+        var confirmation = confirm("Are you sure want to add this crew?");
+        if (confirmation) {
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
         }
     }
     </script>
