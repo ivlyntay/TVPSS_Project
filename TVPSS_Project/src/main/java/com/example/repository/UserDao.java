@@ -1,48 +1,51 @@
 package com.example.repository;
 
 import com.example.model.User;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+
 import java.util.List;
 
 @Repository
 public class UserDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private SessionFactory sessionFactory;
 
+    // Save a user
     public boolean saveUser(User user) {
-        try {
-            System.out.println("Attempting to save user: " + user);
-            entityManager.persist(user);
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
             return true;
         } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
             e.printStackTrace();
             return false;
         }
     }
 
-
-    
+    // Find user by email
     public User findByEmail(String email) {
-        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
-                                        .setParameter("email", email)
-                                        .getResultList();
-        if (users.isEmpty()) {
-            return null; // No user found
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from User u where u.email = :email", User.class)
+                          .setParameter("email", email)
+                          .uniqueResult();
         }
-        return users.get(0); // Return the first matching user
-    }
-    
-    public User findByEmailAndPassword(String email, String password) {
-        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class)
-                                        .setParameter("email", email)
-                                        .setParameter("password", password)
-                                        .getResultList();
-        return users.isEmpty() ? null : users.get(0);
     }
 
+    // Find user by email and password
+    public User findByEmailAndPassword(String email, String password) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from User u where u.email = :email and u.password = :password", User.class)
+                          .setParameter("email", email)
+                          .setParameter("password", password)
+                          .uniqueResult();
+        }
+    }
 }

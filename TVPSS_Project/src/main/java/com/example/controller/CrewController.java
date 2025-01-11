@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Crew;
+import com.example.model.User;
 import com.example.service.CrewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,16 +21,34 @@ public class CrewController {
     @Autowired
     private CrewService crewService;
 
+    // Ensure the user is authenticated before accessing the crew list
+    private boolean isAuthenticated(HttpSession session) {
+        return session.getAttribute("user") != null;  // Check if user is logged in (using session)
+    }
+
     @GetMapping("/crewList")
-    public String listCrew(Model model) {
-        List<Crew> crewList = crewService.getAllCrewMembers();  // Get crew members from the service layer
+    public String listCrew(HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
+        User user = (User) session.getAttribute("user");  // Get the logged-in user from the session
+        if (user == null) {
+            return "redirect:/login";  // Redirect to login if user is not found in session
+        }
+
+        List<Crew> crewList = crewService.getCrewMembersByUserId(user.getId());  // Get crew members for the logged-in user
         model.addAttribute("crewList", crewList);
         model.addAttribute("activePage", "crewList");
         return "school/crew/crewList"; // Return view name for crew list page
     }
 
     @GetMapping("/view/{id}")
-    public String viewCrew(@PathVariable int id, Model model) {
+    public String viewCrew(@PathVariable int id, HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         Crew crew = crewService.getCrewMemberById(id);  // Fetch crew member by ID from the service layer
         if (crew != null) {
             model.addAttribute("crew", crew);
@@ -38,13 +58,21 @@ public class CrewController {
     }
 
     @GetMapping("/add")
-    public String showAddForm(Model model) {
+    public String showAddForm(HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         model.addAttribute("crew", new Crew()); // Empty CrewMember for the form
         return "school/crew/addCrew"; // Return the add crew form view
     }
 
     @PostMapping("/add")
-    public String addCrew(@ModelAttribute Crew crew, @RequestParam("crewPhoto") MultipartFile file, RedirectAttributes redirectAttributes) throws IOException {
+    public String addCrew(@ModelAttribute Crew crew, @RequestParam("crewPhoto") MultipartFile file, RedirectAttributes redirectAttributes, HttpSession session) throws IOException {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         if (!isValidEmail(crew.getEmail()) || !isValidContact(crew.getContactNumber())) {
             redirectAttributes.addFlashAttribute("error", "Invalid email or contact number");
             return "redirect:/school/crew/add"; // Redirect to add form if validation fails
@@ -59,7 +87,11 @@ public class CrewController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable int id, Model model) {
+    public String showEditForm(@PathVariable int id, HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         Crew crew = crewService.getCrewMemberById(id);  // Fetch crew member by ID from the service layer
         if (crew != null) {
             model.addAttribute("crew", crew);
@@ -72,7 +104,11 @@ public class CrewController {
     public String updateCrew(
             @ModelAttribute Crew crew,
             @RequestParam(value = "crewPhoto", required = false) MultipartFile crewPhoto, 
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes, HttpSession session) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         try {
             // Use service to update the crew member, including the photo if uploaded
             crewService.updateCrewMember(crew, crewPhoto);
@@ -85,7 +121,11 @@ public class CrewController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteCrew(@PathVariable int id, RedirectAttributes redirectAttributes) {
+    public String deleteCrew(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
         crewService.deleteCrewMember(id);  // Use service to delete the crew member
         redirectAttributes.addFlashAttribute("message", "Crew deleted successfully");
         return "redirect:/school/crew/crewList"; // Redirect to crew list after deletion

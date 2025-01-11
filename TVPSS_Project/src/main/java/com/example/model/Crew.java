@@ -31,6 +31,10 @@ public class Crew {
     @Column(name = "photo", nullable = true)
     private String photo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Many crew members can belong to one user
+
     // Default constructor
     public Crew() {}
 
@@ -111,4 +115,11 @@ public class Crew {
         this.photo = photo;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
