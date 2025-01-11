@@ -84,5 +84,62 @@ public class UserController {
             return "redirect:/school/profile/editProfile";  // Redirect back to edit form
         }
     }
+    // Change Password - Show the change password form
+    @GetMapping("/changePassword")
+    public String changePasswordForm(HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if the user is not authenticated
+        }
+
+        // Add the user object to the model to allow it to be pre-filled (if necessary)
+        User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
+
+        return "school/profile/setting";  // Thymeleaf template for change password form
+    }
+
+    // Change Password - Handle password update
+    @PostMapping("/updatePassword")
+    public String updatePassword(@RequestParam("currentPassword") String currentPassword,
+                                 @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("confirmPassword") String confirmPassword,
+                                 HttpSession session, RedirectAttributes redirectAttributes) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if the user is not authenticated
+        }
+
+        // Get the logged-in user from the session
+        User loggedInUser = (User) session.getAttribute("user");
+
+        // Check if the current password matches
+        if (!loggedInUser.getPassword().equals(currentPassword)) {
+            redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
+            return "redirect:/school/profile/setting";
+        }
+
+        // Check if the new password matches the confirm password
+        if (!newPassword.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("error", "New password and confirm password do not match.");
+            return "redirect:/school/profile/setting";
+        }
+
+        // Update the password in the database
+        try {
+            loggedInUser.setPassword(newPassword);  // Update the password field
+
+            // Save the updated user
+            userService.updateUser(loggedInUser);  // This will update the password in the database
+
+            // Update session data with new password
+            session.setAttribute("user", loggedInUser);
+
+            redirectAttributes.addFlashAttribute("message", "Password updated successfully.");
+            return "redirect:/school/profile/setting";  // Redirect to the profile page after success
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error updating password: " + e.getMessage());
+            return "redirect:/school/profile/setting";  // Redirect back to change password page
+        }
+    }
+    
 
 }

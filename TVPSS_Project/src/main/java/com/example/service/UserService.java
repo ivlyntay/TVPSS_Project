@@ -58,6 +58,11 @@ public class UserService {
                 existingUser.setYoutubeLink(user.getYoutubeLink());
                 existingUser.setYoutubeChannelName(user.getYoutubeChannelName());
 
+             // If the password is being updated, update it as well
+                if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                    existingUser.setPassword(user.getPassword());
+                }
+                
                 // Save the updated user object
                 userDao.saveUser(existingUser);
             }

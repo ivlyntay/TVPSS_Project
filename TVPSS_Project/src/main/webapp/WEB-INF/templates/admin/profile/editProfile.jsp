@@ -11,8 +11,7 @@
 <body>
 	<div class="container">
 		<!-- Sidebar -->
-		<!-- Include the sidebar (assuming it's managed with Thymeleaf, this will be included) -->
-		<div th:replace="~{school_sidebar :: school_sidebar('profile')}"></div>
+		<div th:replace="~{admin_sidebar :: admin_sidebar('profile')}"></div>
 
 		<!-- Main Content -->
 		<main class="content">
@@ -47,12 +46,11 @@
                 </div>
 
 				<!-- Form Fields (Editable) -->
-				<form th:action="@{/school/profile/updateProfile}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
-					<input type="hidden" name="id" th:value="${user.id}">
+				<form th:action="@{/admin/profile/updateProfile}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
 					<div class="form-grid">
 						<!-- Row 1 -->
 						<div class="form-group">
-							<label for="fullName">Admin Name (as per IC)</label>
+							<label for="fullName">Admin Name</label>
 							<input type="text" id="fullName" name="fullName" th:value="${user.fullName}" required>
 						</div>
 						<div class="form-group">
@@ -62,51 +60,20 @@
 						
 						<!-- Row 2 -->
 						<div class="form-group">
-							<label for="schoolName">School Name</label>
-							<input type="text" id="schoolName" name="schoolName" th:value="${user.schoolName}" required>
-						</div>
-						<div class="form-group">
 							<label for="email">Email</label>
 							<input type="email" id="email" name="email" th:value="${user.email}" required>
 						</div>
-						
-						<!-- Row 3 -->
 						<div class="form-group">
 							<label for="contactNumber">Contact Number</label>
 							<input type="text" id="contactNumber" name="contactNumber" th:value="${user.contactNumber}" required>
 						</div>
-						<div class="form-group">
-							<label for="district">District</label>
-							<select id="district" name="district" required>
-								<option value="">Select District</option>
-								<option th:value="ledang" th:selected="${user.district == 'ledang'}">Ledang</option>
-								<option th:value="segamat" th:selected="${user.district == 'segamat'}">Segamat</option>
-								<option th:value="muar" th:selected="${user.district == 'muar'}">Muar</option>
-								<option th:value="batupahat" th:selected="${user.district == 'batupahat'}">Batu Pahat</option>
-								<option th:value="kluang" th:selected="${user.district == 'kluang'}">Kluang</option>
-								<option th:value="mersing" th:selected="${user.district == 'mersing'}">Mersing</option>
-								<option th:value="pontian" th:selected="${user.district == 'pontian'}">Pontian</option>
-								<option th:value="kulaijaya" th:selected="${user.district == 'kulaijaya'}">Kulai Jaya</option>
-								<option th:value="kotatinggi" th:selected="${user.district == 'kotatinggi'}">Kota Tinggi</option>
-								<option th:value="johorbahru" th:selected="${user.district == 'johorbahru'}">Johor Bahru</option>
-							</select>
-						</div>
 						
-						<!-- Row 4 -->
-				        <div class="form-group">
-				            <label for="youtubeLink">YouTube Channel Link</label>
-				            <input type="text" id="youtubeLink" name="youtubeLink" th:value="${user.youtubeLink}">
-				        </div>
-				        <div class="form-group">
-				            <label for="youtubeChannelName">YouTube Channel Name</label>
-				            <input type="text" id="youtubeChannelName" name="youtubeChannelName" th:value="${user.youtubeChannelName}">
-				        </div>
 					</div>
 
 					<!-- Submit Button -->
 					<div class="form-buttons">
 						<button type="submit" class="btn btn-primary">Save Changes</button>
-						<button type="button" class="btn btn-secondary" th:onclick="|window.location.href='@{/school/profile/profile}'|">Cancel</button>					
+						<button type="button" class="btn btn-secondary" th:onclick="|window.location.href='@{/admin/profile/profile}'|">Cancel</button>					
 					</div>
 				</form>
 			</div>
