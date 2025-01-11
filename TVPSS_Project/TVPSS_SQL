@@ -32,22 +32,20 @@ VALUES
 ('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 1);
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- Primary key with auto-increment
-    full_name VARCHAR(255) NOT NULL, -- Full name column, not null
-    ic_number VARCHAR(20) NOT NULL UNIQUE, -- IC number column, unique and not null
-    school_name VARCHAR(255) NOT NULL, -- School name column, not null
-    district VARCHAR(255), -- District column, nullable
-    email VARCHAR(255) NOT NULL UNIQUE, -- Email column, unique and not null
-    contact_number VARCHAR(20) NOT NULL, -- Contact number column, not null
-    password VARCHAR(255) NOT NULL, -- Password column, not null
-    youtube_link VARCHAR(255), -- YouTube link column, nullable
-    youtube_name VARCHAR(255), -- YouTube channel name column, nullable
-    photo VARCHAR(255), -- Photo column, nullable
-    role VARCHAR(50) NOT NULL -- Role column, not null
+CREATE TABLE user (
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   full_name VARCHAR(255) NOT NULL,
+   ic_number VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL UNIQUE,
+   contact_number VARCHAR(15) NOT NULL,
+   role VARCHAR(255) NOT NULL,
+   school_name VARCHAR(100),
+   district VARCHAR(100),
+   password VARCHAR(255),
+   photo VARCHAR(255) DEFAULT 'default.jpg',
+   ytbName VARCHAR(255) ,
+   ytbLink VARCHAR(255)
 );
-
-INSERT INTO users (full_name, ic_number, school_name, district, email, contact_number, password, youtube_link, youtube_name, photo, role)
-VALUES 
-('John Doe', '123456789012', 'SMK Bandar Kota Tinggi', 'Johor', 'john.doe@example.com', '011-12345678', 'password123', 'https://youtube.com/johndoe', 'John Doe Channel', 'john_doe.jpg', 'Admin'),
-('Jane Smith', '987654321098', 'SMK Taman Desa', 'Selangor', 'jane.smith@example.com', '012-98765432', 'password456', 'https://youtube.com/janesmith', 'Jane Smith Channel', 'jane_smith.jpg', 'Teacher');
+INSERT INTO user (full_name, ic_number, email, contact_number, role, password)
+VALUES
+('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456');
