@@ -33,7 +33,7 @@
 <body>
     <div class="container">
         <!-- Sidebar -->
-        <div th:replace="~{admin_sidebar :: admin_sidebar('profile')}"></div>
+        <div th:replace="~{admin_sidebar :: admin_sidebar('settings')}"></div>
         
         <!-- Main Content -->
         <main class="content">

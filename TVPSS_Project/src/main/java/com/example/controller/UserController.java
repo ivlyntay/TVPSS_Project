@@ -91,17 +91,15 @@ public class UserController {
             return "redirect:/login";
         }
 
-        
-     // Add the active page attribute for highlighting the current menu item
+        // Add the active page attribute for highlighting the current menu item
         model.addAttribute("activePage", "settings");
-        
+
         User user = (User) session.getAttribute("user");
         if (user != null) {
             model.addAttribute("user", user);  // Add user to the model to be used in the view
         }
         return "school/profile/settings";  // Ensure settings.html is located in the correct directory
     }
-
 
     @PostMapping("/updatePassword")
     public String updatePassword(@RequestParam("currentPassword") String currentPassword,

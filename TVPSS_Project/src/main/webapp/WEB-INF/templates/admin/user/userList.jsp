@@ -26,36 +26,35 @@
             </header>
 
             <h1>User List</h1>
-            <!-- Filter Section -->
-            <section class="filter-section">
-                <div class="search-container">
-                    <i class="bi bi-search search-icon"></i>
-                    <input type="text" placeholder="Search..." class="header-search-bar" th:value="${searchTerm}">
-                </div><br>
-                <div class="filter-container">
-                    <div class="filter-item">
-                        <i class="bi bi-funnel"></i>
-                        <span>Filter By</span>
-                    </div>
-                    <select class="filter-dropdown" th:value="${selectedDistrict}">
-                        <option value="">District</option>
-                        <option value="Ledang">Ledang</option>
-                        <option value="Segamat">Segamat</option>
-                        <option value="Muar">Muar</option>
-                        <option value="Batu Pahat">Batu Pahat</option>
-                        <option value="Kluang">Kluang</option>
-                        <option value="Mersing">Mersing</option>
-                        <option value="Pontian">Pontian</option>
-                        <option value="Kulai Jaya">Kulai Jaya</option>
-                        <option value="Kota Tinggi">Kota Tinggi</option>
-                        <option value="Johor Bahru">Johor Bahru</option>
-                    </select>
-                    <button class="reset-button" th:onclick="|window.location.href='@{/admin/userList}'|">
-                        <i class="bi bi-arrow-clockwise"></i> Reset Filter
-                    </button>
-                </div>
-            </section>
-
+           <!-- Filter Section -->
+			<section class="filter-section">
+			    <div class="search-container">
+			        <i class="bi bi-search search-icon"></i>
+			        <input type="text" placeholder="Search..." class="header-search-bar" th:value="${searchTerm}">
+			    </div><br>
+			    <div class="filter-container">
+			        <div class="filter-item">
+			            <i class="bi bi-funnel"></i>
+			            <span>Filter By</span>
+			        </div>
+			        <select class="filter-dropdown" th:value="${selectedDistrict}">
+			            <option value="">District</option>
+			            <option value="Ledang">Ledang</option>
+			            <option value="Segamat">Segamat</option>
+			            <option value="Muar">Muar</option>
+			            <option value="Batu Pahat">Batu Pahat</option>
+			            <option value="Kluang">Kluang</option>
+			            <option value="Mersing">Mersing</option>
+			            <option value="Pontian">Pontian</option>
+			            <option value="Kulai Jaya">Kulai Jaya</option>
+			            <option value="Kota Tinggi">Kota Tinggi</option>
+			            <option value="Johor Bahru">Johor Bahru</option>
+			        </select>
+			        <button class="reset-button" th:onclick="|window.location.href='@{/admin/user/userList}'|">
+			            <i class="bi bi-arrow-clockwise"></i> Reset Filter
+			        </button>
+			    </div>
+			</section>
             <!-- User List Section -->
             <section class="user-list">
                 <table>
@@ -94,6 +93,42 @@
             </section>
         </main>
     </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.querySelector(".header-search-bar");
+        const districtDropdown = document.querySelector("select.filter-dropdown");
+        const resetButton = document.querySelector(".reset-button");
+        const tableRows = document.querySelectorAll(".user-list tbody tr");
+
+        // Filter Rows
+        function filterRows() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedDistrict = districtDropdown.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const schoolName = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+                const district = row.querySelector("td:nth-child(4)").textContent.toLowerCase();
+                const adminName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+
+                const matchesSearch = adminName.includes(searchTerm) || schoolName.includes(searchTerm);
+                const matchesDistrict = !selectedDistrict || district === selectedDistrict;
+
+                row.style.display = matchesSearch && matchesDistrict ? "" : "none";
+            });
+        }
+
+        // Event Listeners
+        searchInput.addEventListener("input", filterRows);
+        districtDropdown.addEventListener("change", filterRows);
+        resetButton.addEventListener("click", () => {
+            searchInput.value = "";
+            districtDropdown.value = "";
+            filterRows();
+        });
+    });
+    </script>
+
     <script th:src="@{/js/script.js}"></script>
 </body>
 </html>
