@@ -40,12 +40,13 @@ CREATE TABLE crew_member (
     ON UPDATE CASCADE
 );
 
-<<<<<<< HEAD
+
 -- Insert data into the crew_member table
 INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number, user_id)
 VALUES 
 ('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 2);
+
 -- school table
 CREATE TABLE school (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -111,4 +112,4 @@ INSERT INTO program_status (
 ('SEKOLAH KEBANGSAAN MAWAI', 1, 'BASIC', CURRENT_DATE, false, false, false, false, '', false, false, false),
 ('SEKOLAH KEBANGSAAN EXAMPLE 2', 2, 'INTERMEDIATE', CURRENT_DATE, true, true, false, false, '', false, false, false),
 ('SEKOLAH KEBANGSAAN EXAMPLE 3', 3, 'ADVANCED', CURRENT_DATE, true, true, true, true, 'https://youtube.com/channel/example', true, true, false);
->>>>>>> Wen-Kang
+
