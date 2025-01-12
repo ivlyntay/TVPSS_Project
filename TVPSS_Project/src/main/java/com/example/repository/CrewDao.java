@@ -15,16 +15,18 @@ public class CrewDao {
     private SessionFactory sessionFactory;
 
     // Get all crew members
-    public List<Crew> getAllCrewMembers() {
+    public List<Crew> getAllCrewMembersWithUser() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Crew", Crew.class).list();
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user", Crew.class).list();
         }
     }
 
     // Get crew member by ID
     public Crew getCrewMemberById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Crew.class, id);
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user WHERE c.id = :id", Crew.class)
+                          .setParameter("id", id)
+                          .uniqueResult();
         }
     }
 
@@ -102,6 +104,22 @@ public class CrewDao {
                           .setParameter("id", id)
                           .setParameter("userId", userId)
                           .uniqueResult();
+        }
+    }
+    
+    public List<Crew> getCrewMembersBySchoolName(String schoolName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user u WHERE u.schoolName = :schoolName", Crew.class)
+                          .setParameter("schoolName", schoolName)
+                          .list();
+        }
+    }
+
+    // New: Get unique school names
+    public List<String> getUniqueSchoolNames() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT DISTINCT u.schoolName FROM User u WHERE u.schoolName IS NOT NULL", String.class)
+                          .list();
         }
     }
 }
