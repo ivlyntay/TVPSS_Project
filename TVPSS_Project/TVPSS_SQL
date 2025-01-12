@@ -45,3 +45,33 @@ INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_numb
 VALUES 
 ('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 2);
+-- school table
+CREATE TABLE school (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    district VARCHAR(255) NOT NULL
+);
+
+INSERT INTO school (name, district) VALUES
+    ('SMK Dato Jaafar', 'Johor Bahru'),
+    ('SMK Kangkar Pulai', 'Johor Bahru'),
+    ('SMK Taman Molek', 'Johor Bahru'),
+    ('SMK Taman Mount Austin', 'Johor Bahru'),
+    ('SMK Taman Pelangi', 'Johor Bahru'),
+    ('SMK Taman Tun Aminah', 'Johor Bahru');
+    
+-- content table
+CREATE TABLE content (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    video_title VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    upload_date DATE NOT NULL,
+    video_url VARCHAR(2083) NOT NULL,
+    school_id INT NOT NULL,
+    school_name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (school_id) REFERENCES school(id)
+);
+
+INSERT INTO content (video_title, category, upload_date, video_url, school_id) VALUES
+('Majlis Sambutan Hari Guru', 'Vlog', '2025-01-13', 'https://example.com/hari-guru', 1),
+('PERTANDINGAN VIDEO KREATIF TVPSS', 'Educational', '2025-01-14', 'https://example.com/video-kreatif', 2);

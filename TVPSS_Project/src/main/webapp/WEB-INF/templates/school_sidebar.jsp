@@ -15,7 +15,7 @@
             <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
-            <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
+            <a href="/TVPSS_Project/school/content/list"><i class="bi bi-journal-text"></i> Content Management</a>
         </li>
         <li th:classappend="${activePage == 'programStatusManagement'} ? 'active'">
             <a href="#"><i class="bi bi-bar-chart"></i> Program Status Management</a>
