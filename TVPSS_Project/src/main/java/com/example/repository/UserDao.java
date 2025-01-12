@@ -38,6 +38,13 @@ public class UserDao {
                           .uniqueResult();
         }
     }
+    public List<User> findUsersByRole(String role) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from User u where u.role = :role", User.class)
+                          .setParameter("role", role)
+                          .list();
+        }
+    }
 
     // Find user by email and password
     public User findByEmailAndPassword(String email, String password) {

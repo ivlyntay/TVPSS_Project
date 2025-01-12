@@ -32,6 +32,16 @@ public class UserService {
         }
     }
 
+ // Retrieve users by role
+    public List<User> getUsersByRole(String role) {
+        try {
+            return userDao.findUsersByRole(role);
+        } catch (Exception e) {
+            System.out.println("Error fetching users by role: " + e.getMessage());
+            throw new RuntimeException("Error fetching users by role");
+        }
+    }
+
     // Login a user with email and password
     public User loginUser(String email, String password) {
         User user = userDao.findByEmail(email);

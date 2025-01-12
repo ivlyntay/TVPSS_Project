@@ -70,26 +70,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user : ${userList}">
-                            <td th:text="${user.id}"></td>
-                            <td th:text="${user.fullName}"></td>
-                            <td th:text="${user.schoolName}"></td>
-                            <td th:text="${user.district}"></td>
-                            <td th:text="${user.youtubeChannelName}" >                              
-                            </td>
-
-                            <td>
-                                <!-- View Icon -->
-                                <button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/admin/user/view/${user.id}'|">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <!-- Delete Icon -->
-                                <button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this user?')) window.location.href='@{/admin/user/delete/{id}(id=${user.id})}'|">
-                                    <i class="bi bi-trash"></i> <!-- Delete icon -->
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <tr th:if="${#lists.isEmpty(userList)}">
+				        <td colspan="6">No School Admins found.</td>
+				    </tr>
+				    <tr th:each="user : ${userList}">
+				        <td th:text="${user.id}"></td>
+				        <td th:text="${user.fullName}"></td>
+				        <td th:text="${user.schoolName}"></td>
+				        <td th:text="${user.district}"></td>
+				        <td th:text="${user.youtubeChannelName}"></td>
+				        <td>
+				            <!-- View Icon -->
+				            <button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/admin/user/view/${user.id}'|">
+				                <i class="bi bi-eye"></i>
+				            </button>
+				            <!-- Delete Icon -->
+				            <button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this user?')) window.location.href='@{/admin/user/delete/{id}(id=${user.id})}'|">
+				                <i class="bi bi-trash"></i>
+				            </button>
+				        </td>
+				    </tr>
+				</tbody>
                 </table>
             </section>
         </main>

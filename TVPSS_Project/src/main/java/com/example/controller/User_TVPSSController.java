@@ -122,7 +122,7 @@ public class User_TVPSSController {
         User loggedInUser = (User) session.getAttribute("user");
         model.addAttribute("loggedInUser", loggedInUser);  // This will hold the logged-in user's data
 
-        List<User> userList = userService.getAllUser();
+        List<User> userList = userService.getUsersByRole("schoolAdmin");
         model.addAttribute("userList", userList);
         model.addAttribute("activePage", "userList");
         return "admin/user/userList";
