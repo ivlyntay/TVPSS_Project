@@ -15,16 +15,27 @@ public class CrewDao {
     private SessionFactory sessionFactory;
 
     // Get all crew members
-    public List<Crew> getAllCrewMembers() {
+    public List<Crew> getAllCrewMembersWithUser() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from Crew", Crew.class).list();
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user", Crew.class).list();
         }
     }
 
     // Get crew member by ID
     public Crew getCrewMemberById(int id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Crew.class, id);
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user WHERE c.id = :id", Crew.class)
+                          .setParameter("id", id)
+                          .uniqueResult();
+        }
+    }
+
+    // Get crew members by user ID
+    public List<Crew> getCrewMembersByUserId(Integer userId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Crew where user.id = :userId", Crew.class)
+                          .setParameter("userId", userId)
+                          .list();
         }
     }
 
@@ -41,39 +52,36 @@ public class CrewDao {
         }
     }
 
+    
+    // Update a crew member
     public void updateCrewMember(Crew crewMember) {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
 
-            // Ensure the crew member already exists before updating
             Crew existingCrew = session.get(Crew.class, crewMember.getId());
             if (existingCrew != null) {
-                // Update all editable fields
                 existingCrew.setFullName(crewMember.getFullName());
                 existingCrew.setIcNumber(crewMember.getIcNumber());
                 existingCrew.setEmail(crewMember.getEmail());
                 existingCrew.setContactNumber(crewMember.getContactNumber());
                 existingCrew.setGender(crewMember.getGender());
                 existingCrew.setRole(crewMember.getRole());
-
-                // Update the photo if a new photo is provided
                 if (crewMember.getPhoto() != null && !crewMember.getPhoto().isEmpty()) {
                     existingCrew.setPhoto(crewMember.getPhoto());
                 }
 
-                // Save the updated crew member
                 session.update(existingCrew);
             }
 
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            // Optionally log the exception for debugging
             throw e;
         }
     }
-    // Delete a crew member by ID
+
+    // Delete a crew member
     public void deleteCrewMember(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -86,6 +94,32 @@ public class CrewDao {
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             throw e;
+        }
+    }
+
+    // Get crew member by ID and user ID
+    public Crew getCrewMemberByIdAndUserId(int id, Integer userId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Crew where id = :id and user.id = :userId", Crew.class)
+                          .setParameter("id", id)
+                          .setParameter("userId", userId)
+                          .uniqueResult();
+        }
+    }
+    
+    public List<Crew> getCrewMembersBySchoolName(String schoolName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT c FROM Crew c JOIN FETCH c.user u WHERE u.schoolName = :schoolName", Crew.class)
+                          .setParameter("schoolName", schoolName)
+                          .list();
+        }
+    }
+
+    // New: Get unique school names
+    public List<String> getUniqueSchoolNames() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT DISTINCT u.schoolName FROM User u WHERE u.schoolName IS NOT NULL", String.class)
+                          .list();
         }
     }
 }

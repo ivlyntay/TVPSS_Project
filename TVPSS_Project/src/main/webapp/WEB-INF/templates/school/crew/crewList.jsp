@@ -20,8 +20,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                         <option value="Script Writer">Script Writer</option>
                         <option value="Video Editor">Video Editor</option>
                     </select>
-                    <button class="reset-button">
+                    <button class="reset-button" th:onclick="|window.location.href='@{/school/crew/crewList}'|">
                         <i class="bi bi-arrow-clockwise"></i> Reset Filter
                     </button>
                 </div>
@@ -82,8 +82,8 @@
 									<button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/school/crew/edit/${crew.id}'|">
 									    <i class="bi bi-pencil-square"></i> <!-- Edit icon -->
 									</button>
-									<button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this crew member?')) window.location.href='/TVPSS_Project/school/crew/delete/${crew.id}'|">
-									    <i class="bi bi-trash"></i> <!-- Delete icon -->
+										<button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this crew member?')) window.location.href='/TVPSS_Project/school/crew/delete/${crew.id}'|">									    
+										<i class="bi bi-trash"></i> <!-- Delete icon -->
 									</button>
                                 </td>
                             </tr>

@@ -18,8 +18,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                             <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -45,12 +45,11 @@
                         <option value="Script Writer">Script Writer</option>
                         <option value="Video Editor">Video Editor</option>
                     </select>
-                    <select class="filter-dropdown" th:value="${selectedSchool}">
-                        <option value="">School</option>
-                        <option value="SMK Bandar Kota Tinggi">SMK Bandar Kota Tinggi</option>
-                        <!-- Add more options dynamically as needed -->
-                    </select>
-                    <button class="reset-button" th:onclick="|window.location.href='@{/admin/crewList}'|">
+                    <select class="filter-dropdown" name="schoolName" th:value="${selectedSchool}">
+				        <option value="">All Schools</option>
+				        <option th:each="school : ${uniqueSchools}" th:value="${school}" th:text="${school}"></option>
+				    </select>
+                    <button class="reset-button" th:onclick="|window.location.href='@{/admin/crew/crewList}'|">
                         <i class="bi bi-arrow-clockwise"></i> Reset Filter
                     </button>
                 </div>
@@ -71,14 +70,14 @@
                     </thead>
                     <tbody>
                         <tr th:each="crew : ${crewList}">
-                            <td th:text="${crew.schoolName}">SMK Bandar Kota Tinggi</td>
-                            <td th:text="${crew.fullName}">Ivlyn Tay Wan Rou</td>
-                            <td th:text="${crew.role}">Script Writer</td>
-                            <td th:text="${crew.email}">ivlyn@graduate.utm.my</td>
-                            <td th:text="${crew.contactNumber}">011-10746482</td>
+                            <td th:text="${crew.user.schoolName}"></td>
+                            <td th:text="${crew.fullName}"></td>
+                            <td th:text="${crew.role}"></td>
+                            <td th:text="${crew.email}"></td>
+                            <td th:text="${crew.contactNumber}"></td>
                             <td>
                                 <!-- View Icon -->
-                                <button class="action-btn" th:onclick="|window.location.href='@{/admin/viewCrew/{id}(id=${crew.id})}'|">
+                                <button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/admin/crew/view/${crew.id}'|">
                                     <i class="bi bi-eye"></i> <!-- View icon -->
                                 </button>
                             </td>
@@ -89,6 +88,44 @@
         </main>
     </div>
 
-   <script th:src="@{/js/script.js}"></script>
+   <script>
+   document.addEventListener("DOMContentLoaded", () => {
+       const searchInput = document.querySelector(".header-search-bar");
+       const roleDropdown = document.querySelector("select.filter-dropdown:nth-of-type(1)");
+       const schoolDropdown = document.querySelector("select.filter-dropdown:nth-of-type(2)");
+       const resetButton = document.querySelector(".reset-button");
+       const tableRows = document.querySelectorAll(".crew-list tbody tr");
+
+       // Filter Rows
+       function filterRows() {
+           const searchTerm = searchInput.value.toLowerCase();
+           const selectedRole = roleDropdown.value.toLowerCase();
+           const selectedSchool = schoolDropdown.value.toLowerCase();
+
+           tableRows.forEach(row => {
+               const schoolName = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
+               const crewName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+               const role = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+
+               const matchesSearch = crewName.includes(searchTerm);
+               const matchesRole = !selectedRole || role === selectedRole;
+               const matchesSchool = !selectedSchool || schoolName === selectedSchool;
+
+               row.style.display = matchesSearch && matchesRole && matchesSchool ? "" : "none";
+           });
+       }
+
+       // Event Listeners
+       searchInput.addEventListener("input", filterRows);
+       roleDropdown.addEventListener("change", filterRows);
+       schoolDropdown.addEventListener("change", filterRows);
+       resetButton.addEventListener("click", () => {
+           searchInput.value = "";
+           roleDropdown.value = "";
+           schoolDropdown.value = "";
+           filterRows();
+       });
+   });
+   </script>
 </body>
 </html>

@@ -28,21 +28,26 @@ public class Crew {
     @Column(name = "ic_number", nullable = false)
     private String icNumber;
 
-    @Column(name = "photo")
-    private String photo;  // Path to the uploaded photo
+    @Column(name = "photo", nullable = true)
+    private String photo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Many crew members can belong to one user
 
     // Default constructor
     public Crew() {}
 
     // Constructor with parameters
-    public Crew(String fullName, String icNumber, String email, String contactNumber, String gender, String role, String photo) {
+    public Crew(String fullName, String role, String email, String contactNumber, String gender, String icNumber, String photo, User user) {
         this.fullName = fullName;
-        this.icNumber = icNumber;
+        this.role = role;
         this.email = email;
         this.contactNumber = contactNumber;
         this.gender = gender;
-        this.role = role;
+        this.icNumber = icNumber;
         this.photo = photo;
+        this.user = user;
     }
 
     // Getters and setters
@@ -110,8 +115,11 @@ public class Crew {
         this.photo = photo;
     }
 
-    @Override
-    public String toString() {
-        return fullName;  // Display the full name when printed
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

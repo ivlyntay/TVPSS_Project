@@ -19,8 +19,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <h1>Add New Crew</h1>
             <div class="form-container">
                 <!-- Form Fields -->
-                <form th:action="@{/school/crew/add}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/school/crew/add}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
                     <div class="form-group image-upload">
                         <div class="image-circle" id="image-circle">
                             <i class="bi bi-camera-fill" id="camera-icon" style="font-size: 30px;"></i>
@@ -70,8 +70,8 @@
                             <label for="gender">Gender</label>
                             <select id="gender" name="gender" required>
                                 <option value="">Select gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -86,7 +86,8 @@
                             </select>
                         </div>
                     </div>
-
+                    <input type="hidden" name="userId" th:value="${session.userId}" />
+                    
                     <!-- Form Buttons -->
                     <div class="form-buttons">
                         <button type="submit" class="btn btn-primary" name="action" value="add">Add Now</button>
@@ -106,6 +107,14 @@
             profilePic.src = URL.createObjectURL(inputFile.files[0]);
             profilePic.style.display = 'block';
             cameraIcon.style.display = 'none'; // Hide camera icon once image is uploaded
+        }
+    }
+    function confirmSubmit() {
+        var confirmation = confirm("Are you sure want to add this crew?");
+        if (confirmation) {
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
         }
     }
     </script>

@@ -19,8 +19,8 @@
                     <div class="profile">
                          <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -62,8 +62,7 @@
                         </table>
                     </div>
                     <div class="form-buttons">
-                        <!-- Updated Back Button -->
-                        <a th:href="@{/school/crew/crewList}" class="btn btn-primary">Back</a>
+                        <button type="button" class="btn btn-primary" th:onclick="|window.location.href='@{/school/crew/crewList}'|">Back</button>
                     </div>
                 </div>
             </section>

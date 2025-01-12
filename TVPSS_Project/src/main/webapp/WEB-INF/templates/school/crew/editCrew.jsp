@@ -20,8 +20,8 @@
                     <div class="profile">
                          <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
 		        <div th:if="${message}" class="alert alert-success">
 		            <p th:text="${message}"></p>
 		        </div>
-                <form th:action="@{/school/crew/update}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/school/crew/update}" method="post" enctype="multipart/form-data" onsubmit="return confirmSubmit();">
                     <input type="hidden" name="id" th:value="${crew.id}">
                     
                     <!-- Profile Image Upload -->
@@ -79,8 +79,8 @@
                             <label for="gender">Gender</label>
                             <select id="gender" name="gender">
                                 <option value="">Select Gender</option>
-                                <option value="male" th:selected="${crew.gender == 'male'}">Male</option>
-                                <option value="female" th:selected="${crew.gender == 'female'}">Female</option>
+                                <option value="Male" th:selected="${crew.gender == 'Male'}">Male</option>
+                                <option value="Female" th:selected="${crew.gender == 'Female'}">Female</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -129,6 +129,15 @@
     // Optional: Add functionality to show the camera icon again when no file is selected
     inputFile.onfocus = function() {
         cameraIcon.style.display = 'block'; // Show camera icon when input is focused
+    }
+    
+    function confirmSubmit() {
+        var confirmation = confirm("Are you sure want to update this crew?");
+        if (confirmation) {
+            return true; // Proceed with form submission
+        } else {
+            return false; // Cancel form submission
+        }
     }
 </script>
 
