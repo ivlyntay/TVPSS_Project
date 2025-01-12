@@ -68,6 +68,20 @@ public class User_TVPSSController {
         }
     }
 
+    @GetMapping("/profile/settings")
+    public String settings(HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";
+        }
+
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("user", user);  // Add user to the model to be used in the view
+        }
+        return "admin/profile/settings";  // Ensure settings.html is located in the correct directory
+    }
+
+
     @PostMapping("/profile/updatePassword")
     public String updatePassword(@RequestParam("currentPassword") String currentPassword,
                                  @RequestParam("newPassword") String newPassword,

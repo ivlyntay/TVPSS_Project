@@ -27,7 +27,7 @@
             <a th:href="@{/school/profile/profile}"><i class="bi bi-person"></i> Profile</a>
         </li>
         <li th:classappend="${activePage == 'settings'} ? 'active'">
-            <a th:href="@{/school/profile/setting}"><i class="bi bi-gear"></i> Settings</a>
+            <a th:href="@{/school/profile/settings}"><i class="bi bi-gear"></i> Settings</a>
         </li>
         <li class="separator"></li>
         <li class="logout"><a th:href="@{/login}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
