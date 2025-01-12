@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Content Management</title>
@@ -159,9 +157,19 @@
 </head>
 <body>
     <div class="container">
-        <%@ include file="sidebar_content.jsp" %>
+        <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
         <div class="main-content">
-            <%@ include file="../header_school.jsp" %>
+             <header class="header">
+                <div class="header-right">
+                    <div class="profile">
+                        <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
+                        <div class="header-profile">
+                            <span class="profile-name">Moni Roy</span><br>
+                            <span class="role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
             
             <h2>Content Management</h2>
             
@@ -185,7 +193,7 @@
                     <a href="#" class="reset-filter">Reset Filter</a>
                 </div>
                 
-                <a href="./addContent.jsp" class="add-new" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Add New</a>
+                <a href="/TVPSS_Project/school/content/add" class="add-new" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Add New</a>
 
             </div>
 
@@ -194,79 +202,26 @@
                     <tr>
                         <th>VIDEO NAME</th>
                         <th>CATEGORY</th>
-                        <th>VIEWS</th>
-                        <th>LIKES</th>
                         <th>UPLOADED DATE</th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Episode 14: Studio Terbaik TVPSS (2023)</td>
-                        <td><span class="category-tag educational">Educational</span></td>
-                        <td>3150</td>
-                        <td>300</td>
-                        <td>Oct 15, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Episode 29: Jom sertai TV PSS FiveOne! (2024)</td>
-                        <td><span class="category-tag awareness">Awareness</span></td>
-                        <td>4132</td>
-                        <td>4132</td>
-                        <td>Oct 10, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>PERTANDINGAN VIDEO KREATIF TVPSS</td>
-                        <td><span class="category-tag educational">Educational</span></td>
-                        <td>3121</td>
-                        <td>3121</td>
-                        <td>Oct 3, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Majlis Sambutan Hari Guru</td>
-                        <td><span class="category-tag vlog">Vlog</span></td>
-                        <td>2200</td>
-                        <td>2200</td>
-                        <td>Sept 15, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Kelengkapan TVPSS</td>
-                        <td><span class="category-tag vlog">Vlog</span></td>
-                        <td>500</td>
-                        <td>3121</td>
-                        <td>Sept 3, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+            <tr th:each="content : ${contentList}">
+                <td th:text="${content.videoTitle}">Sample Video Name</td>
+                <td>
+                    <span class="category-tag" th:classappend="${content.category == 'Educational' ? 'educational' : content.category == 'Awareness' ? 'awareness' : 'vlog'}"
+                        th:text="${content.category}">Category</span>
+                </td>
+                <td th:text="${content.uploadDate}">Oct 15, 2024</td>
+                <td>
+                    <div class="action-cell">
+                        <button class="action-btn" th:onclick="'editContent(' + ${content.id} + ')'">✏️</button>
+                        <button class="action-btn" th:onclick="'deleteContent(' + ${content.id} + ')'">🗑️</button>
+                    </div>
+                </td>
+            </tr>
+</tbody>
             </table>
 
             <div class="pagination">

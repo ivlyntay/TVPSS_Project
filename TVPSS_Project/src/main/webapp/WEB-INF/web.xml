@@ -21,6 +21,12 @@
 	 	<description></description>
 	 	<servlet-class>com.example.controller.Crew_TVPSSController</servlet-class>
 	 </servlet>
+	 <servlet>
+	 	<servlet-name>ContentController</servlet-name>
+	 	<display-name>ContentController</display-name>
+	 	<description></description>
+	 	<servlet-class>com.example.controller.ContentController</servlet-class>
+	 </servlet>
 	 
 	 <servlet-mapping>
 	 <servlet-name>myMainController</servlet-name>
@@ -33,5 +39,9 @@
 	 <servlet-mapping>
 	 	<servlet-name>Crew_TVPSSController</servlet-name>
 	 	<url-pattern>/Crew_TVPSSController</url-pattern>
+	 </servlet-mapping>
+	 <servlet-mapping>
+	 	<servlet-name>ContentController</servlet-name>
+	 	<url-pattern>/ContentController</url-pattern>
 	 </servlet-mapping>
 </web-app> 
