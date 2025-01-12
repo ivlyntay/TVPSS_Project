@@ -79,13 +79,14 @@
                                 <a th:href="${user.youtubeLink}" target="_blank" th:text="${user.youtubeLink}"></a>
                             </td>
                             <td>
-                                <button class="action-btn" th:onclick="|window.location.href='@{/admin/user/viewUser/{id}(id=${user.id})}'|">
-                                    <i class="bi bi-eye"></i>
+							        <!-- View Icon -->
+                                <button class="action-btn" th:onclick="|window.location.href='@{/admin/viewUser/{id}(id=${user.id})}'|">
+                                    <i class="bi bi-eye"></i> 
                                 </button>
-                                <button class="action-btn" th:onclick="return confirm('Are you sure you want to delete this user?')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
+							    <button class="action-btn" th:onclick="return confirm('Are you sure you want to delete this user?')">
+							        <i class="bi bi-trash"></i>
+							    </button>
+							</td>
                         </tr>
                     </tbody>
                 </table>
