@@ -30,20 +30,26 @@ public class CrewController {
         return session.getAttribute("user") != null;  // Check if user is logged in (using session)
     }
 
+    // Get the logged-in user from the session
+    private User getLoggedInUser(HttpSession session) {
+        return (User) session.getAttribute("user");
+    }
+
     @GetMapping("/crewList")
     public String listCrew(HttpSession session, Model model) {
         if (!isAuthenticated(session)) {
             return "redirect:/login";  // Redirect to login if not authenticated
         }
 
-        User user = (User) session.getAttribute("user");  // Get the logged-in user from the session
-        if (user == null) {
+        User loggedInUser = getLoggedInUser(session);  // Get the logged-in user from the session
+        if (loggedInUser == null) {
             return "redirect:/login";  // Redirect to login if user is not found in session
         }
 
-        List<Crew> crewList = crewService.getCrewMembersByUserId(user.getId());  // Get crew members for the logged-in user
+        List<Crew> crewList = crewService.getCrewMembersByUserId(loggedInUser.getId());  // Get crew members for the logged-in user
         model.addAttribute("crewList", crewList);
         model.addAttribute("activePage", "crewList");
+        model.addAttribute("loggedInUser", loggedInUser);  // Add logged-in user to the model
         return "school/crew/crewList"; // Return view name for crew list page
     }
 
@@ -53,12 +59,14 @@ public class CrewController {
             return "redirect:/login";  // Redirect to login if not authenticated
         }
 
+        User loggedInUser = getLoggedInUser(session);  // Get the logged-in user from the session
         Crew crew = crewService.getCrewMemberById(id);  // Fetch crew member by ID from the service layer
         if (crew != null) {
             model.addAttribute("crew", crew);
+            model.addAttribute("loggedInUser", loggedInUser);  // Add logged-in user to the model
             return "school/crew/viewCrew"; // View page for a specific crew member
         }
-        return "redirect:/school/crew/crewList"; // Redirect to crew list if not found
+        return "redirect:/school/crew/crewList"; // Redirect to crew list if crew not found
     }
 
     @GetMapping("/add")
@@ -67,7 +75,9 @@ public class CrewController {
             return "redirect:/login";  // Redirect to login if not authenticated
         }
 
-        model.addAttribute("crew", new Crew()); // Empty CrewMember for the form
+        User loggedInUser = getLoggedInUser(session);  // Get the logged-in user from the session
+        model.addAttribute("crew", new Crew());  // Empty CrewMember for the form
+        model.addAttribute("loggedInUser", loggedInUser);  // Add logged-in user to the model
         return "school/crew/addCrew"; // Return the add crew form view
     }
 
@@ -105,17 +115,17 @@ public class CrewController {
         }
     }
 
-
-
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, HttpSession session, Model model) {
         if (!isAuthenticated(session)) {
             return "redirect:/login";  // Redirect to login if not authenticated
         }
 
+        User loggedInUser = getLoggedInUser(session);  // Get the logged-in user from the session
         Crew crew = crewService.getCrewMemberById(id);  // Fetch crew member by ID from the service layer
         if (crew != null) {
             model.addAttribute("crew", crew);
+            model.addAttribute("loggedInUser", loggedInUser);  // Add logged-in user to the model
             return "school/crew/editCrew"; // Edit form view for a specific crew member
         }
         return "redirect:/school/crew/crewList"; // Redirect to crew list if crew not found
