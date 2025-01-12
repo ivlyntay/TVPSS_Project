@@ -4,6 +4,7 @@ import com.example.model.Program;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -46,7 +47,7 @@ public class ProgramListDao {
                 hql.append(" ORDER BY lastEdited ASC");
             }
 
-            var query = session.createQuery(hql.toString(), Program.class);
+            Query<Program> query = session.createQuery(hql.toString(), Program.class);
             if (statusVersion != null && !statusVersion.isEmpty()) {
                 query.setParameter("statusVersion", statusVersion);
             }
