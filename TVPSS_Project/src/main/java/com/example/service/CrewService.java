@@ -20,7 +20,7 @@ public class CrewService {
 
     // Get all crew members
     public List<Crew> getAllCrewMembers() {
-        return crewMemberDao.getAllCrewMembers();
+        return crewMemberDao.getAllCrewMembersWithUser();
     }
 
     // Get a crew member by ID
@@ -76,5 +76,14 @@ public class CrewService {
     // Get a crew member by ID and user ID
     public Crew getCrewMemberByIdAndUserId(int id, Integer userId) {
         return crewMemberDao.getCrewMemberByIdAndUserId(id, userId); // Fetch crew member by ID and user ID
+    }
+    
+    public List<Crew> getCrewMembersBySchoolName(String schoolName) {
+        return crewMemberDao.getCrewMembersBySchoolName(schoolName);
+    }
+
+    // New: Get unique school names
+    public List<String> getUniqueSchoolNames() {
+        return crewMemberDao.getUniqueSchoolNames();
     }
 }
