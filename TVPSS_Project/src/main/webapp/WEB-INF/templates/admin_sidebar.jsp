@@ -15,7 +15,7 @@
             <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li th:classappend="${activePage == 'userManagement'} ? 'active'">
-            <a href="#"><i class="bi bi-border-all"></i> User Management</a>
+            <a th:href="@{/admin/user/userList}"><i class="bi bi-border-all"></i> User Management</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
             <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
@@ -30,10 +30,10 @@
             <a th:href="@{/admin/profile/profile}"><i class="bi bi-person"></i> Profile</a>
         </li>
         <li th:classappend="${activePage == 'settings'} ? 'active'">
-            <a th:href="@{/admin/setting/setting}"><i class="bi bi-gear"></i> Settings</a>
+            <a th:href="@{/admin/profile/settings}"><i class="bi bi-gear"></i> Settings</a>
         </li>
         <li class="separator"></li>
-        <li class="logout"><a th:href="@{/login}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+        <li class="logout"><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
     </ul>
 </div>
 

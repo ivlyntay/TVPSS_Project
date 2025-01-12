@@ -30,7 +30,7 @@
             <a th:href="@{/school/setting/setting}"><i class="bi bi-gear"></i> Settings</a>
         </li>
         <li class="separator"></li>
-        <li class="logout"><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+        <li class="logout"><a th:href="@{/login}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
     </ul>
 </div>
 
