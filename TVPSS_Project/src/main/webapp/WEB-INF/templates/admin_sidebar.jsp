@@ -14,7 +14,7 @@
         <li th:classappend="${activePage == 'dashboard'} ? 'active'">
             <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
-        <li th:classappend="${activePage == 'userManagement'} ? 'active'">
+        <li th:classappend="${activePage == 'userList'} ? 'active'">
             <a th:href="@{/admin/user/userList}"><i class="bi bi-border-all"></i> User Management</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
