@@ -70,26 +70,27 @@ public class ProgramListDao {
 
     // Update a program
     public void updateProgram(Program program) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
-            transaction = session.beginTransaction();
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            try {
+                // Get existing program
+                Program existingProgram = session.get(Program.class, program.getId());
+                if (existingProgram == null) {
+                    throw new RuntimeException("Program not found");
+                }
 
-            // Ensure the program exists before updating
-            Program existingProgram = session.get(Program.class, program.getId());
-            if (existingProgram != null) {
-                // Update fields based on modal inputs
+                // Update fields
                 existingProgram.setStatusVersion(program.getStatusVersion());
                 existingProgram.setEquipmentLevel(program.getEquipmentLevel());
                 existingProgram.setLastEdited(program.getLastEdited());
 
-                // Save the updated program
+                // Save changes
                 session.update(existingProgram);
+                transaction.commit();
+            } catch (Exception e) {
+                transaction.rollback();
+                throw e;
             }
-
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw e;
         }
     }
 }

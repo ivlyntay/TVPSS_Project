@@ -46,6 +46,7 @@ public class ProgramListController {
             programListService.updateProgram(program);
             return "success";
         } catch (Exception e) {
+        	System.err.println("Error updating program: " + e.getMessage());
             return "error: " + e.getMessage();
         }
     }
