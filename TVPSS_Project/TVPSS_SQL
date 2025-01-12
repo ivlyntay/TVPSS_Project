@@ -14,3 +14,17 @@ INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_numb
 VALUES 
 ('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465'),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
+
+CREATE TABLE program_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_name VARCHAR(255) NOT NULL,
+    status_version VARCHAR(50) NOT NULL,
+    equipment_level VARCHAR(50) NOT NULL,
+    last_edited DATE NOT NULL
+);
+
+INSERT INTO program_status (school_name, status_version, equipment_level, last_edited)
+VALUES
+('SMK Mewah', 'Version 1', 'Level 3', '2024-10-29'),
+('SMK Utama', 'Version 2', 'Level 2', '2024-11-01');
+
