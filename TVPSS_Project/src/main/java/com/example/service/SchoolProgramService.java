@@ -17,7 +17,25 @@ public class SchoolProgramService {
     }
     
     public void saveOrUpdateProgramStatus(Program program) {
-        schoolProgramDao.saveOrUpdateProgramStatus(program);
+        try {
+            if (program.getSchoolName() == null || program.getSchoolName().isEmpty()) {
+                throw new IllegalArgumentException("School name cannot be empty");
+            }
+            
+            // Set default values if needed
+            if (program.getEquipmentLevel() == null) {
+                program.setEquipmentLevel("BASIC");
+            }
+            if (program.getStatusVersion() == null) {
+                program.setStatusVersion("1");
+            }
+            
+            schoolProgramDao.saveOrUpdateProgramStatus(program);
+        } catch (Exception e) {
+            // Log the error
+            e.printStackTrace();
+            throw new RuntimeException("Failed to save program status: " + e.getMessage());
+        }
     }
     
     public void updateEquipmentLevel(String schoolName, String equipmentLevel) {

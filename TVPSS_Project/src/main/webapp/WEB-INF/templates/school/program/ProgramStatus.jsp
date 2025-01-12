@@ -6,16 +6,17 @@
     <title>Program Status</title>
     <link th:href="@{/css/program.css}" rel="stylesheet" />
     <link th:href="@{/css/progSidebar_header.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <!-- Include Sidebar -->
-        <div th:replace="~{school_sidebar :: school_sidebar('ProgramStatus')}"></div>
+         <div th:replace="~{school_sidebar :: school_sidebar('ProgramStatus')}"></div>
 
         <main class="content">
             <!-- Include Header -->
-            <div th:replace="~{header_school :: header}"></div>
+           <!--   <div th:replace="~{header_school :: header}"></div>-->
 
             <header class="header">
                 <div class="header-right">
@@ -23,20 +24,33 @@
                         <img th:src="@{/img/profile.png}" alt="Profile Image" class="profile-image">
                         <div class="header-profile">
                             <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="role">School</span>
                         </div>
                     </div>
                 </div>
             </header>
 
             <h1>Program Status</h1>
-
+			<h3>School Information</h3>
+			<div class="card">
+			    <div class="school-info">
+			        <div>
+			            <div class="form-group">
+			                <label>School Name:</label>
+			                <span th:text="${school.schoolName}">SEKOLAH KEBANGSAAN MAWAI</span>
+			            </div></div></div></div>
             <!-- Program Status Section -->
             <section class="program-status-section">
+            
                 <h3>Program Status</h3>
                 <div class="card">
-                    <form id="programStatusForm" th:action="@{/program-status/save}" method="post">
-
+                    <form id="programStatusForm" th:action="@{/school/program/program-status/save}" method="post">
+						<input type="hidden" name="schoolName" th:value="${school.schoolName}" />
+						<!-- Add hidden version field -->
+					    <input type="hidden" name="statusVersion" th:value="${program.statusVersion}" />
+					    
+					    <!-- Add hidden equipment level field with a default value -->
+					    <input type="hidden" name="equipmentLevel" th:value="${program.equipmentLevel != null ? program.equipmentLevel : '1'}" />
                         <!-- Logo Status -->
                         <div class="form-group">
                             <label>Logo:</label>
@@ -153,29 +167,50 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const saveBtn = document.querySelector('.save-btn');
-        const form = document.getElementById('programStatusForm');
-        const versionDisplay = document.getElementById('version-display');
-
-        saveBtn.addEventListener('click', function (event) {
-            // Prevent form submission
-            event.preventDefault();
-
-            // Collect form data
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-
-            // Calculate version
-            let version = 1;
-            if (data.logoStatus === 'true') version = 2;
-            if (data.studioStatus === 'true' && data.recordingStatus === 'true') version = 3;
-            if (data.youtubeStatus === 'true' && data.collaborateStatus === 'true' && data.greenScreenStatus === 'true') version = 4;
-
-            // Update version display
-            versionDisplay.textContent = version;
-        });
-    });
-    </script>
+		document.addEventListener('DOMContentLoaded', function () {
+		    const form = document.getElementById('programStatusForm');
+		    
+		    form.addEventListener('submit', function (event) {
+		        event.preventDefault();
+		        
+		        // Create FormData object
+		        const formData = new FormData(form);
+		        
+		        // Send AJAX request
+		        fetch(form.action, {
+		            method: 'POST',
+		            body: formData,
+		            headers: {
+		                'Accept': 'application/json, text/plain'
+		            }
+		        })
+		        .then(response => response.text())
+		        .then(result => {
+		            console.log('Server response:', result); // Debug logging
+		            if (result === 'success') {
+		                alert('Program status saved successfully!');
+		                // Update version if needed
+		                updateVersion();
+		            } else {
+		                alert('Error saving program status: ' + result);
+		            }
+		        })
+		        .catch(error => {
+		            console.error('Error:', error);
+		            alert('Error saving program status: ' + error);
+		        });
+		    });
+		    
+		    function updateVersion() {
+		        const formData = new FormData(form);
+		        let version = 1;
+		        if (formData.get('logoStatus') === 'true') version = 2;
+		        if (formData.get('studioStatus') === 'true' && formData.get('recordingStatus') === 'true') version = 3;
+		        if (formData.get('youtubeStatus') === 'true' && formData.get('collaborateStatus') === 'true' && 
+		            formData.get('greenScreenStatus') === 'true') version = 4;
+		        document.getElementById('version-display').textContent = version;
+		    }
+		});
+		</script>
 </body>
 </html>

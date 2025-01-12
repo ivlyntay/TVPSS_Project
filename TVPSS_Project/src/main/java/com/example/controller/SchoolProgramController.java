@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.sql.Date;
 
 @Controller
 @RequestMapping("/school/program")
@@ -17,25 +18,50 @@ public class SchoolProgramController {
     
     @GetMapping("/ProgramStatus")
     public String showProgramStatus(@RequestParam(required = false) String schoolName, Model model) {
+        // Create a default school if schoolName is not provided
+        if (schoolName == null || schoolName.isEmpty()) {
+            schoolName = "SEKOLAH KEBANGSAAN MAWAI"; // Default school or get from session
+        }
+        
+        // Get program status
         Program program = schoolProgramService.getProgramBySchool(schoolName);
         if (program == null) {
-            program = new Program(); // Initialize with defaults if needed
+            program = new Program();
+            program.setSchoolName(schoolName);
         }
+        
+        // Add both school and program to the model
+        model.addAttribute("school", program); // This will allow accessing school.schoolName
         model.addAttribute("program", program);
-        return "/school/program/ProgramStatus";
+        return "school/program/ProgramStatus"; // Update path to match your template location
     }
     
     @PostMapping("/program-status/save")
     @ResponseBody
     public String saveProgramStatus(@ModelAttribute Program program) {
         try {
+            // Add debug logging
+            System.out.println("Received program data: " + program.toString());
+            
+            // Validate school name is not null
+            if (program.getSchoolName() == null || program.getSchoolName().isEmpty()) {
+                return "error: School name is required";
+            }
+            
             // Calculate and set version
             String version = schoolProgramService.calculateVersion(program);
             program.setStatusVersion(version);
             
+            // Set last edited date
+            program.setLastEdited(new Date(System.currentTimeMillis()));
+            
+            // Save the program
             schoolProgramService.saveOrUpdateProgramStatus(program);
+            
             return "success";
         } catch (Exception e) {
+            // Add detailed error logging
+            e.printStackTrace();
             return "error: " + e.getMessage();
         }
     }
