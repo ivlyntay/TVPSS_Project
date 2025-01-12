@@ -157,7 +157,7 @@
                         <!-- Buttons -->
                         <div class="button-container">
                             <button type="submit" class="btn btn-primary save-btn">Save</button>
-                            <button type="button" class="btn btn-secondary next-btn" th:onclick="|window.location.href='@{/TVPSS_Project/school/program/equipment_management}'|">Next</button>
+                            <button type="button" class="btn btn-secondary next-btn" th:onclick="|window.location.href='@{/school/program/equipment_management}'|">Next</button>
                         </div>
                         
                     </form>

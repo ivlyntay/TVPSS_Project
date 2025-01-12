@@ -31,6 +31,7 @@ public class SchoolProgramController {
         }
         
         // Add both school and program to the model
+        model.addAttribute("activePage", "ProgramStatus");
         model.addAttribute("school", program); // This will allow accessing school.schoolName
         model.addAttribute("program", program);
         return "school/program/ProgramStatus"; // Update path to match your template location
@@ -70,6 +71,7 @@ public class SchoolProgramController {
     public String showEquipmentManagement(@RequestParam(required = false) String schoolName, Model model) {
         Program program = schoolProgramService.getProgramBySchool(schoolName);
         model.addAttribute("program", program);
+        model.addAttribute("activePage", "ProgramStatus");
         return "/school/program/equipment_management";
     }
     

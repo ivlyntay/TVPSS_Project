@@ -10,21 +10,36 @@ CREATE TABLE crew_member (
     ic_number VARCHAR(20) NOT NULL,
     photo VARCHAR(255) DEFAULT 'default.jpg'
 );
-INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number)
-VALUES 
-('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465'),
-('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213');
-
 CREATE TABLE program_status (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    school_name VARCHAR(255) NOT NULL,
-    status_version VARCHAR(50) NOT NULL,
-    equipment_level VARCHAR(50) NOT NULL,
-    last_edited DATE NOT NULL
+    school_name VARCHAR(100),
+    status_version INT,
+    equipment_level VARCHAR(100),
+    last_edited DATE,
+    logo_status BOOLEAN,
+    studio_status BOOLEAN,
+    recording_status BOOLEAN,
+    youtube_status BOOLEAN,
+    youtube_link VARCHAR(255),
+    inside_outside_status BOOLEAN,
+    collaborate_status BOOLEAN,
+    green_screen_status BOOLEAN
 );
 
-INSERT INTO program_status (school_name, status_version, equipment_level, last_edited)
-VALUES
-('SMK Mewah', 'Version 1', 'Level 3', '2024-10-29'),
-('SMK Utama', 'Version 2', 'Level 2', '2024-11-01');
-
+INSERT INTO program_status (
+    school_name,
+    status_version,
+    equipment_level,
+    last_edited,
+    logo_status,
+    studio_status,
+    recording_status,
+    youtube_status,
+    youtube_link,
+    inside_outside_status,
+    collaborate_status,
+    green_screen_status
+) VALUES 
+('SEKOLAH KEBANGSAAN MAWAI', 1, 'BASIC', CURRENT_DATE, false, false, false, false, '', false, false, false),
+('SEKOLAH KEBANGSAAN EXAMPLE 2', 2, 'INTERMEDIATE', CURRENT_DATE, true, true, false, false, '', false, false, false),
+('SEKOLAH KEBANGSAAN EXAMPLE 3', 3, 'ADVANCED', CURRENT_DATE, true, true, true, true, 'https://youtube.com/channel/example', true, true, false);

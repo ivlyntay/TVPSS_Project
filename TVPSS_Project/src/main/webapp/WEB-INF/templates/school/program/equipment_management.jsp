@@ -11,11 +11,9 @@
 <body>
     <div class="container">
         <!-- Include Sidebar -->
-        <div th:replace="~{school_sidebar :: school_sidebar('equipment_management')}"></div>
-
+        <div th:replace="~{school_sidebar :: school_sidebar('ProgramStatus')}"></div>
         <main class="content">
             <!-- Include Header -->
-            <div th:replace="~{header_school :: header}"></div>
 			<div class="header-right">
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
