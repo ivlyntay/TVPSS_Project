@@ -15,7 +15,7 @@
             <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li th:classappend="${activePage == 'userManagement'} ? 'active'">
-            <a href="#"><i class="bi bi-border-all"></i> User Management</a>
+            <a th:href="@{/admin/user/userList}"><i class="bi bi-border-all"></i> User Management</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
             <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
@@ -24,7 +24,7 @@
             <a href="#"><i class="bi bi-bar-chart"></i> Program Status Management</a>
         </li>
         <li th:classappend="${activePage == 'crewList'} ? 'active'">
-            <a th:href="@{/school/crew/crewList}"><i class="bi bi-people"></i> Crew Management</a>
+            <a th:href="@{/admin/crew/crewList}"><i class="bi bi-people"></i> Crew Management</a>
         </li>
         <li th:classappend="${activePage == 'profile'} ? 'active'">
             <a th:href="@{/admin/profile/profile}"><i class="bi bi-person"></i> Profile</a>
