@@ -23,11 +23,11 @@
                         </div>
                     </div>
                 </div>
-                
-             <h2 class="page-title">Equipment Management</h2>
-             <button class="back-btn" th:onclick="|window.location.href='@{/ProgramStatus}'|">Back</button>
 
-
+			<div class="header-container">
+        	<h2 class="page-title">Equipment Management</h2><br><br>
+        	<button class="back-btn" th:onclick="|window.location.href='@{/ProgramStatus}'|">Back</button>
+    		</div>
             <section class="cards-container">
 			    <!-- Level 1 Card -->
 			    <div class="level-card">
@@ -92,15 +92,15 @@
 
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-            <h3>Confirm Selection</h3>
-            <p>Are you sure you want to select Level <span id="selectedLevel"></span>?</p>
-            <div class="modal-buttons">
-                <button id="confirmBtn" class="btn btn-success">Confirm</button>
-                <button id="cancelBtn" class="btn btn-danger">Cancel</button>
-            </div>
+    <div class="modal-content">
+        <h3>Confirm Selection</h3>
+        <p>Are you sure you want to select Level <span id="selectedLevel"></span>?</p>
+        <div class="modal-buttons">
+       		<button id="confirmBtn">Confirm</button>
+            <button id="cancelBtn">Cancel</button>
         </div>
     </div>
+	</div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -109,20 +109,55 @@
         const cancelBtn = document.getElementById('cancelBtn');
         const selectBtns = document.querySelectorAll('.select-btn');
         const selectedLevelSpan = document.getElementById('selectedLevel');
+        let lastSelectedBtn = null;
 
         // Handle Select button click
         selectBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                const level = btn.getAttribute('data-level');
+            btn.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent form submission
+                const form = btn.closest('form');
+                const level = form.querySelector('input[name="equipmentLevel"]').value;
                 selectedLevelSpan.textContent = level;
                 modal.style.display = "block";
+                lastSelectedBtn = btn;
             });
         });
 
         // Handle confirm button click
         confirmBtn.addEventListener('click', function () {
-            modal.style.display = "none"; // Hide modal
-            alert('Level ' + selectedLevelSpan.textContent + ' selected!'); // Replace with actual save logic
+            modal.style.display = "none";
+            
+            // Reset all buttons first
+            selectBtns.forEach(btn => {
+                btn.classList.remove('active');
+                btn.textContent = 'Select';
+            });
+            
+            // Update the selected button
+            if (lastSelectedBtn) {
+                lastSelectedBtn.classList.add('active');
+                lastSelectedBtn.textContent = 'Selected';
+                
+                // Get the form data and send via AJAX
+                const form = lastSelectedBtn.closest('form');
+                const formData = new FormData(form);
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        console.log('Equipment level saved successfully');
+                    } else {
+                        console.error('Error saving equipment level:', result);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
         });
 
         // Handle cancel button click
