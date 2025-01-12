@@ -1,33 +1,74 @@
-// Program.java
 package com.example.model;
+
 import javax.persistence.*;
+import java.sql.Date;
+
+@Entity
+@Table(name = "program_status")
 public class Program {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String description;
-    private int duration;
-    private String category;
-    private String difficulty;
-    private String trainer;
-    private boolean isActive;
+
+    @Column(name = "school_name", nullable = false)
+    private String schoolName;
+
+    @Column(name = "status_version", nullable = false, length = 50)
+    private String statusVersion;
+
+    @Column(name = "equipment_level", nullable = false, length = 50)
+    private String equipmentLevel;
+
+    @Column(name = "last_edited", nullable = false)
+    private Date lastEdited;
+
+    @Column(name = "logo_status", nullable = false)
+    private boolean logoStatus;
+
+    @Column(name = "studio_status", nullable = false)
+    private boolean studioStatus;
+
+    @Column(name = "recording_status", nullable = false)
+    private boolean recordingStatus;
+
+    @Column(name = "youtube_status", nullable = false)
+    private boolean youtubeStatus;
+
+    @Column(name = "youtube_link")
+    private String youtubeLink;
+
+    @Column(name = "inside_outside_status", nullable = false)
+    private boolean insideOutsideStatus;
+
+    @Column(name = "collaborate_status", nullable = false)
+    private boolean collaborateStatus;
+
+    @Column(name = "green_screen_status", nullable = false)
+    private boolean greenScreenStatus;
 
     // Default constructor
     public Program() {}
 
-    // Parameterized constructor
-    public Program(int id, String name, String description, int duration, 
-                  String category, String difficulty, String trainer, boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.duration = duration;
-        this.category = category;
-        this.difficulty = difficulty;
-        this.trainer = trainer;
-        this.isActive = isActive;
+    // Constructor with parameters
+    public Program(String schoolName, String statusVersion, String equipmentLevel, Date lastEdited,
+                   boolean logoStatus, boolean studioStatus, boolean recordingStatus, boolean youtubeStatus,
+                   String youtubeLink, boolean insideOutsideStatus, boolean collaborateStatus, boolean greenScreenStatus) {
+        this.schoolName = schoolName;
+        this.statusVersion = statusVersion;
+        this.equipmentLevel = equipmentLevel;
+        this.lastEdited = lastEdited;
+        this.logoStatus = logoStatus;
+        this.studioStatus = studioStatus;
+        this.recordingStatus = recordingStatus;
+        this.youtubeStatus = youtubeStatus;
+        this.youtubeLink = youtubeLink;
+        this.insideOutsideStatus = insideOutsideStatus;
+        this.collaborateStatus = collaborateStatus;
+        this.greenScreenStatus = greenScreenStatus;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -36,59 +77,118 @@ public class Program {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getStatusVersion() {
+        return statusVersion;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStatusVersion(String statusVersion) {
+        this.statusVersion = statusVersion;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getEquipmentLevel() {
+        return equipmentLevel;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEquipmentLevel(String equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
     }
 
-    public String getCategory() {
-        return category;
+    public Date getLastEdited() {
+        return lastEdited;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setLastEdited(Date lastEdited) {
+        this.lastEdited = lastEdited;
     }
 
-    public String getDifficulty() {
-        return difficulty;
+    public boolean isLogoStatus() {
+        return logoStatus;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public void setLogoStatus(boolean logoStatus) {
+        this.logoStatus = logoStatus;
     }
 
-    public String getTrainer() {
-        return trainer;
+    public boolean isStudioStatus() {
+        return studioStatus;
     }
 
-    public void setTrainer(String trainer) {
-        this.trainer = trainer;
+    public void setStudioStatus(boolean studioStatus) {
+        this.studioStatus = studioStatus;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isRecordingStatus() {
+        return recordingStatus;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setRecordingStatus(boolean recordingStatus) {
+        this.recordingStatus = recordingStatus;
+    }
+
+    public boolean isYoutubeStatus() {
+        return youtubeStatus;
+    }
+
+    public void setYoutubeStatus(boolean youtubeStatus) {
+        this.youtubeStatus = youtubeStatus;
+    }
+
+    public String getYoutubeLink() {
+        return youtubeLink;
+    }
+
+    public void setYoutubeLink(String youtubeLink) {
+        this.youtubeLink = youtubeLink;
+    }
+
+    public boolean isInsideOutsideStatus() {
+        return insideOutsideStatus;
+    }
+
+    public void setInsideOutsideStatus(boolean insideOutsideStatus) {
+        this.insideOutsideStatus = insideOutsideStatus;
+    }
+
+    public boolean isCollaborateStatus() {
+        return collaborateStatus;
+    }
+
+    public void setCollaborateStatus(boolean collaborateStatus) {
+        this.collaborateStatus = collaborateStatus;
+    }
+
+    public boolean isGreenScreenStatus() {
+        return greenScreenStatus;
+    }
+
+    public void setGreenScreenStatus(boolean greenScreenStatus) {
+        this.greenScreenStatus = greenScreenStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Program{" +
+                "id=" + id +
+                ", schoolName='" + schoolName + '\'' +
+                ", statusVersion='" + statusVersion + '\'' +
+                ", equipmentLevel='" + equipmentLevel + '\'' +
+                ", lastEdited=" + lastEdited +
+                ", logoStatus=" + logoStatus +
+                ", studioStatus=" + studioStatus +
+                ", recordingStatus=" + recordingStatus +
+                ", youtubeStatus=" + youtubeStatus +
+                ", youtubeLink='" + youtubeLink + '\'' +
+                ", insideOutsideStatus=" + insideOutsideStatus +
+                ", collaborateStatus=" + collaborateStatus +
+                ", greenScreenStatus=" + greenScreenStatus +
+                '}';
     }
 }

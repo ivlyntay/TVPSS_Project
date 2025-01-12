@@ -20,8 +20,8 @@
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
              <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
         </li>
-        <li th:classappend="${activePage == 'programStatusManagement'} ? 'active'">
-            <a href="#"><i class="bi bi-bar-chart"></i> Program Status Management</a>
+        <li th:classappend="${activePage == 'programList'} ? 'active'">
+            <a th:href="@{/admin/program/programList}"><i class="bi bi-bar-chart"></i> Program Status Management</a>
         </li>
         <li th:classappend="${activePage == 'crewList'} ? 'active'">
             <a th:href="@{/admin/crew/crewList}"><i class="bi bi-people"></i> Crew Management</a>
