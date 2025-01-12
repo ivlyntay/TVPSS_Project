@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Content Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" href="../../css/content.css">
     <link rel="stylesheet" href="../../css/sidebar_header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .container {
             display: flex;
