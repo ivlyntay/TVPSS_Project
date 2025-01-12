@@ -116,4 +116,17 @@ public class User_TVPSSController {
         }
         return "redirect:/admin/user/userList";
     }
+    @GetMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login";  // Redirect to login if not authenticated
+        }
+
+        System.out.println("Deleting user with ID: " + id);
+
+        userService.deleteUserAccount(id);  // Use service to delete the user
+        redirectAttributes.addFlashAttribute("message", "User deleted successfully");
+        return "redirect:/admin/user/userList"; // Redirect to user list after deletion
+    }
+
 }

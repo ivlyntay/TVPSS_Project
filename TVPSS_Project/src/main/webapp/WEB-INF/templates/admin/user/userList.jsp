@@ -80,12 +80,13 @@
                             </td>
                             <td>
 							        <!-- View Icon -->
-                                <button class="action-btn" th:onclick="|window.location.href='@{/admin/viewUser/{id}(id=${user.id})}'|">
-                                    <i class="bi bi-eye"></i> 
-                                </button>
-							    <button class="action-btn" th:onclick="return confirm('Are you sure you want to delete this user?')">
-							        <i class="bi bi-trash"></i>
-							    </button>
+                                <button class="action-btn" th:onclick="|window.location.href='/TVPSS_Project/admin/user/view/${user.id}'|">
+								    <i class="bi bi-eye"></i>
+								</button>
+									<!-- delete -->
+								<button class="action-btn" th:onclick="|if(confirm('Are you sure you want to delete this user?')) window.location.href='@{/admin/user/delete/{id}(id=${user.id})}'|">
+								    <i class="bi bi-trash"></i> <!-- Delete icon -->
+								</button>
 							</td>
                         </tr>
                     </tbody>

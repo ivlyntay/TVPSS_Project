@@ -64,7 +64,7 @@ public class UserDao {
     }
 
     // Delete a user by ID
-    public boolean deleteUser(int id) {
+    public boolean deleteUserAccount(int id) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();

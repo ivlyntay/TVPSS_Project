@@ -5,7 +5,10 @@ import com.example.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -90,5 +93,28 @@ public class UserService {
             System.out.println("Error fetching user by ID: " + e.getMessage());
             throw new RuntimeException("Error fetching user by ID");
         }
+    }
+ // Delete a user by ID
+    public void deleteUserAccount(int id) {
+        userDao.deleteUserAccount(id);
+    }
+ // Save the photo for a user (school admin)
+    public String savePhoto(MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return "default.jpg"; // Return default image name if no file is uploaded
+        }
+
+        String uploadDir = new File("src/main/webapp/crew_photos").getAbsolutePath();
+        File uploadDirectory = new File(uploadDir);
+
+        if (!uploadDirectory.exists()) {
+            uploadDirectory.mkdirs();
+        }
+
+        String fileName = file.getOriginalFilename();
+        File destination = new File(uploadDirectory, fileName);
+        file.transferTo(destination);
+
+        return fileName;
     }
 }
