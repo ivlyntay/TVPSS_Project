@@ -62,6 +62,14 @@ public class UserDao {
             return session.createQuery("from User", User.class).list();
         }
     }
+ // Find users by role
+    public List<User> findUsersByRole(String role) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from User u where u.role = :role", User.class)
+                          .setParameter("role", role)
+                          .list();
+        }
+    }
 
     // Delete a user by ID
     public boolean deleteUserAccount(int id) {

@@ -120,13 +120,15 @@ public class User_TVPSSController {
 
         // Add the logged-in user's details to the model
         User loggedInUser = (User) session.getAttribute("user");
-        model.addAttribute("loggedInUser", loggedInUser);  // This will hold the logged-in user's data
+        model.addAttribute("loggedInUser", loggedInUser); // This will hold the logged-in user's data
 
-        List<User> userList = userService.getAllUser();
+        // Fetch only users with the role "schoolAdmin"
+        List<User> userList = userService.getUsersByRole("schoolAdmin");
         model.addAttribute("userList", userList);
         model.addAttribute("activePage", "userList");
         return "admin/user/userList";
     }
+
 
     @GetMapping("/user/view/{id}")
     public String viewUser(@PathVariable int id, HttpSession session, Model model) {

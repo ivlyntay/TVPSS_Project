@@ -31,6 +31,7 @@
         </li>
         <li class="separator"></li>
         <li class="logout"><a th:href="@{/login}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+    <!-- <li class="logout"><a href="/perform_logout"><i class="bi bi-box-arrow-right"></i> Logout</a></li> -->
     </ul>
 </div>
 

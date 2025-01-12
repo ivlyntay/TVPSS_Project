@@ -49,6 +49,13 @@ body {
 	z-index: 1;
 }
 </style>
+<div th:if="${param.error}" style="color: red;">
+    Invalid username or password. Please try again.
+</div>
+<div th:if="${param.logout}" style="color: green;">
+    You have been logged out successfully.
+</div>
+
 <body>
 	<div class="background"></div>
 	<div class="login-container">
@@ -58,7 +65,9 @@ body {
 		</div>
 		<h2>Login to Account</h2>
 		<br>
+		<!-- <form action="/perform_login" method="post"> -->
 		<form th:action="@{/login}" method="post">
+
 			<label for="email">Email Address</label> <input type="text"
 				name="email" required><br> <label for="password">Password</label>
 			<input type="password" name="password" required><br>

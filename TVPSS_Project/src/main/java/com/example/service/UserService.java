@@ -98,6 +98,17 @@ public class UserService {
     public void deleteUserAccount(int id) {
         userDao.deleteUserAccount(id);
     }
+    
+ // Retrieve users by role
+    public List<User> getUsersByRole(String role) {
+        try {
+            return userDao.findUsersByRole(role);
+        } catch (Exception e) {
+            System.out.println("Error fetching users by role: " + e.getMessage());
+            throw new RuntimeException("Error fetching users by role");
+        }
+    }
+
  // Save the photo for a user (school admin)
     public String savePhoto(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
