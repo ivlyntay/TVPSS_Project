@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 public class User_TVPSSController {
@@ -31,11 +30,10 @@ public class User_TVPSSController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            System.out.println("No user found in session!");
-        } else {
-            System.out.println("User found: " + user.getEmail());
-        }
+        
+        // Add the logged-in user to the model
+        model.addAttribute("loggedInUser", user);
+
         model.addAttribute("user", user);
         return "admin/profile/profile";
     }
@@ -46,6 +44,10 @@ public class User_TVPSSController {
             return "redirect:/login";
         }
         User user = (User) session.getAttribute("user");
+
+        // Add the logged-in user to the model
+        model.addAttribute("loggedInUser", user);
+
         model.addAttribute("user", user);
         return "admin/profile/editProfile";
     }
@@ -55,17 +57,13 @@ public class User_TVPSSController {
         if (!isAuthenticated(session)) {
             return "redirect:/login";
         }
-        try {
-            User loggedInUser = (User) session.getAttribute("user");
-            user.setId(loggedInUser.getId());
-            userService.updateUser(user);
-            session.setAttribute("user", user);
-            redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
-            return "redirect:/admin/profile";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error updating profile: " + e.getMessage());
-            return "redirect:/admin/profile/edit";
-        }
+        User loggedInUser = (User) session.getAttribute("user");
+        user.setId(loggedInUser.getId());
+        userService.updateUser(user);
+        session.setAttribute("user", user);
+
+        redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
+        return "redirect:/admin/profile";
     }
 
     @GetMapping("/profile/settings")
@@ -75,12 +73,13 @@ public class User_TVPSSController {
         }
 
         User user = (User) session.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("user", user);  // Add user to the model to be used in the view
-        }
+
+        // Add the logged-in user to the model
+        model.addAttribute("loggedInUser", user);
+
+        model.addAttribute("user", user);  // Add user to the model to be used in the view
         return "admin/profile/settings";  // Ensure settings.html is located in the correct directory
     }
-
 
     @PostMapping("/profile/updatePassword")
     public String updatePassword(@RequestParam("currentPassword") String currentPassword,
@@ -114,7 +113,15 @@ public class User_TVPSSController {
     // ------------------- User Management Section -------------------
 
     @GetMapping("/user/userList")
-    public String listUsers(Model model) {
+    public String listUsers(HttpSession session, Model model) {
+        if (!isAuthenticated(session)) {
+            return "redirect:/login"; // Redirect to login if not authenticated
+        }
+
+        // Add the logged-in user's details to the model
+        User loggedInUser = (User) session.getAttribute("user");
+        model.addAttribute("loggedInUser", loggedInUser);  // This will hold the logged-in user's data
+
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList", userList);
         model.addAttribute("activePage", "userList");
@@ -122,14 +129,20 @@ public class User_TVPSSController {
     }
 
     @GetMapping("/user/view/{id}")
-    public String viewUser(@PathVariable int id, Model model) {
+    public String viewUser(@PathVariable int id, HttpSession session, Model model) {
         User user = userService.getUserById(id);
+        
         if (user != null) {
+            // Add the logged-in user's details to the model
+            User loggedInUser = (User) session.getAttribute("user");
+            model.addAttribute("loggedInUser", loggedInUser);  // This will hold the logged-in user's data
+
             model.addAttribute("user", user);
             return "admin/user/viewUser";
         }
         return "redirect:/admin/user/userList";
     }
+
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable int id, RedirectAttributes redirectAttributes, HttpSession session) {
         if (!isAuthenticated(session)) {
@@ -142,5 +155,4 @@ public class User_TVPSSController {
         redirectAttributes.addFlashAttribute("message", "User deleted successfully");
         return "redirect:/admin/user/userList"; // Redirect to user list after deletion
     }
-
 }

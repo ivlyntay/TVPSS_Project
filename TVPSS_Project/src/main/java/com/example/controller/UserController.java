@@ -30,16 +30,10 @@ public class UserController {
 
         // Get the logged-in user from the session
         User user = (User) session.getAttribute("user");
-        
-        // Debugging log to check if the user is found in the session
-        if (user == null) {
-            System.out.println("No user found in session!");
-        } else {
-            System.out.println("User found: " + user.getEmail());
-        }
 
-        // Add the user to the model to display profile information
+        // Add the logged-in user to the model to display profile information
         model.addAttribute("user", user);  // Pass the user object to the view
+        model.addAttribute("loggedInUser", user);  // Add logged-in user to the model
 
         return "school/profile/profile";  // Return the correct template location
     }
@@ -53,6 +47,8 @@ public class UserController {
 
         User user = (User) session.getAttribute("user");  // Retrieve the logged-in user from the session
         model.addAttribute("user", user);  // Pass the user object to the form
+        model.addAttribute("loggedInUser", user);  // Add logged-in user to the model
+
         return "school/profile/editProfile";  // The JSP or Thymeleaf template for editing the profile
     }
 
@@ -84,7 +80,7 @@ public class UserController {
             return "redirect:/school/profile/editProfile";  // Redirect back to edit form
         }
     }
-    
+
     @GetMapping("/settings")
     public String settings(HttpSession session, Model model) {
         if (!isAuthenticated(session)) {
@@ -95,9 +91,9 @@ public class UserController {
         model.addAttribute("activePage", "settings");
 
         User user = (User) session.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("user", user);  // Add user to the model to be used in the view
-        }
+        model.addAttribute("user", user);  // Add user to the model to be used in the view
+        model.addAttribute("loggedInUser", user);  // Add logged-in user to the model
+
         return "school/profile/settings";  // Ensure settings.html is located in the correct directory
     }
 
@@ -109,6 +105,7 @@ public class UserController {
         if (!isAuthenticated(session)) {
             return "redirect:/login";
         }
+
         User loggedInUser = (User) session.getAttribute("user");
         if (!loggedInUser.getPassword().equals(currentPassword)) {
             redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
@@ -129,6 +126,4 @@ public class UserController {
             return "redirect:/school/profile/settings";
         }
     }
-    
-
 }

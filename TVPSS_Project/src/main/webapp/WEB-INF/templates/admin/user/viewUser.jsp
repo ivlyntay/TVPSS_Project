@@ -19,8 +19,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                             <span class="profile-name" th:text="${loggedInUser.fullName}"></span><br>
+                            <span class="role" th:text="${loggedInUser.role}"></span>
                         </div>
                     </div>
                 </div>
@@ -62,9 +62,11 @@
                             </tr>
                             <tr>
                                 <td>Youtube Channel:</td>
-                                <td>
-                                    <a th:href="${user.youtubeLink}" target="_blank" th:text="${user.youtubeLink}"></a>
-                                </td>
+                                <td th:text="${user.youtubeChannelName}"></td>                             
+                            </tr>
+                            <tr>
+                                <td>Youtube Link:</td>
+                                 <td th:text="${user.youtubeLink}"></td>
                             </tr>
                         </table>
                     </div>
