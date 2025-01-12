@@ -1,21 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@ page isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program List</title>
-    <link rel="stylesheet" href="../../css/progSidebar_header.css">
-    <link rel="stylesheet" href="../../css/admin_program.css">
+    <link rel="stylesheet" th:href="@{/css/admin_program.css}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <%@ include file="adminsidebar.jsp" %>
+        <div th:replace="~{admin_sidebar :: admin_sidebar('programList')}"></div>
         <main class="content">
-            <%@ include file="../header_tvpss.jsp" %>
+            <!-- Include Header -->
+             <header class="header">
+                <div class="header-right">
+                    <div class="profile">
+                        <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
+                        <div class="header-profile">
+                            <span class="profile-name">Moni Roy</span><br>
+                            <span class="role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
             <h1>Program List</h1>
             <!-- Search Section -->
@@ -71,18 +79,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                            <tr>
-                                <td>SMK Mewah</td>
-                                <td>Version 1</td>
-                                <td>Level 3</td>
-                                <td>2024-10-29</td>
-                                <td>
-                                    <button class="action-btn" onclick="openEditModal('SMK Mewah', 'Version 1', 'Level 3')">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                    </tbody>
+					    <tr th:each="program : ${programs}">
+					        <td th:text="${program.schoolName}"></td>
+					        <td th:text="${program.statusVersion}"></td>
+					        <td th:text="${program.equipmentLevel}"></td>
+					        <td th:text="${program.lastEdited}"></td>
+					        <td>
+					            <button class="action-btn" 
+								    th:onclick="|openEditModal('${program.schoolName}', '${program.statusVersion}', '${program.equipmentLevel}')|">
+								    <i class="bi bi-pencil-square"></i>
+								</button>
+					        </td>
+					    </tr>
+					</tbody>
+
                 </table>
             </section>
 
@@ -172,67 +182,37 @@
 	        rows.forEach(row => row.style.display = '');
 	    });
 	    
-	 // Open the edit modal and populate fields
-	    function openEditModal(schoolName, version, level) {
-	        const modal = document.getElementById('editModal');
-	        const schoolNameInput = document.getElementById('schoolName');
-	        const statusVersionSelect = document.getElementById('statusVersion');
-	        const equipmentLevelSelect = document.getElementById('equipmentLevel');
-
-	      	// Populate fields with current values
-	        schoolNameInput.value = schoolName;
-	        statusVersionSelect.value = version;
-	        equipmentLevelSelect.value = level;
-
-	        // Show the modal
-	        modal.style.display = 'block';
-	    }
-
-	    // Close the edit modal
-	    function closeEditModal() {
-	        const modal = document.getElementById('editModal');
-	        modal.style.display = 'none';
-	    }
-
-	 // Save the changes and update the table
-	    document.getElementById('editForm').onsubmit = function (e) {
+	 // Update the edit form submission
+	    document.getElementById('editForm').onsubmit = function(e) {
 	        e.preventDefault();
 
-	        const schoolName = document.getElementById('schoolName').value;
-	        const statusVersion = document.getElementById('statusVersion').value;
-	        const equipmentLevel = document.getElementById('equipmentLevel').value;
+	        const formData = {
+	            schoolName: document.getElementById('schoolName').value,
+	            statusVersion: document.getElementById('statusVersion').value,
+	            equipmentLevel: document.getElementById('equipmentLevel').value,
+	            lastEdited: new Date().toISOString().split('T')[0]
+	        };
 
-	        // Validate inputs
-	        if (!schoolName || !statusVersion || !equipmentLevel) {
-	            alert('All fields are required!');
-	            return;
-	        }
-
-	        // Get the current date in YYYY-MM-DD format
-	        const currentDate = new Date().toISOString().split('T')[0];
-
-	        // Find the matching row and update its content
-	        const rows = document.querySelectorAll('.status-table tbody tr');
-	        rows.forEach(row => {
-	            if (row.cells[0].textContent === schoolName) {
-	                row.cells[1].textContent = statusVersion; // Update Status Version
-	                row.cells[2].textContent = equipmentLevel; // Update Equipment Level
-	                row.cells[3].textContent = currentDate; // Update Last Edited Date
+	        fetch('/admin/program/update', {
+	            method: 'POST',
+	            headers: {
+	                'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify(formData)
+	        })
+	        .then(response => {
+	            if (!response.ok) {
+	                throw new Error('Update failed');
 	            }
-	        });
-
-	        // Close the modal after saving changes
-	        closeEditModal();
-	    };
-
-	    // Close modal when clicking outside
-	    window.onclick = function (event) {
-	        const modal = document.getElementById('editModal');
-	        if (event.target === modal) {
+	            // Close modal and refresh the page to show updated data
 	            closeEditModal();
-	        }
+	            window.location.reload();
+	        })
+	        .catch(error => {
+	            alert('Error updating program: ' + error.message);
+	        });
 	    };
-
+	    
 	    // Allow Cancel button to close the modal
 	    document.querySelector('.cancel-btn').addEventListener('click', closeEditModal);
 

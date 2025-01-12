@@ -1,33 +1,41 @@
-// Program.java
 package com.example.model;
+
 import javax.persistence.*;
+
+import java.sql.Date;
+
+@Entity
+@Table(name = "program_status")
 public class Program {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String description;
-    private int duration;
-    private String category;
-    private String difficulty;
-    private String trainer;
-    private boolean isActive;
+
+    @Column(name = "school_name", nullable = false)
+    private String schoolName;
+
+    @Column(name = "status_version", nullable = false)
+    private String statusVersion;
+
+    @Column(name = "equipment_level", nullable = false)
+    private String equipmentLevel;
+
+    @Column(name = "last_edited", nullable = false)
+    private Date lastEdited;
 
     // Default constructor
     public Program() {}
 
-    // Parameterized constructor
-    public Program(int id, String name, String description, int duration, 
-                  String category, String difficulty, String trainer, boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.duration = duration;
-        this.category = category;
-        this.difficulty = difficulty;
-        this.trainer = trainer;
-        this.isActive = isActive;
+    // Constructor with parameters
+    public Program(String schoolName, String statusVersion, String equipmentLevel, Date lastEdited) {
+        this.schoolName = schoolName;
+        this.statusVersion = statusVersion;
+        this.equipmentLevel = equipmentLevel;
+        this.lastEdited = lastEdited;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public int getId() {
         return id;
     }
@@ -36,59 +44,46 @@ public class Program {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getStatusVersion() {
+        return statusVersion;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStatusVersion(String statusVersion) {
+        this.statusVersion = statusVersion;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getEquipmentLevel() {
+        return equipmentLevel;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setEquipmentLevel(String equipmentLevel) {
+        this.equipmentLevel = equipmentLevel;
     }
 
-    public String getCategory() {
-        return category;
+    public Date getLastEdited() {
+        return lastEdited;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setLastEdited(Date lastEdited) {
+        this.lastEdited = lastEdited;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public String getTrainer() {
-        return trainer;
-    }
-
-    public void setTrainer(String trainer) {
-        this.trainer = trainer;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
+    @Override
+    public String toString() {
+        return "Program{" +
+                "id=" + id +
+                ", schoolName='" + schoolName + '\'' +
+                ", statusVersion='" + statusVersion + '\'' +
+                ", equipmentLevel='" + equipmentLevel + '\'' +
+                ", lastEdited=" + lastEdited +
+                '}';
     }
 }
