@@ -79,21 +79,21 @@ public class User_TVPSSController {
         User loggedInUser = (User) session.getAttribute("user");
         if (!loggedInUser.getPassword().equals(currentPassword)) {
             redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
-            return "redirect:/admin/profile/setting";
+            return "redirect:/admin/profile/settings";
         }
         if (!newPassword.equals(confirmPassword)) {
             redirectAttributes.addFlashAttribute("error", "New password and confirm password do not match.");
-            return "redirect:/admin/profile/setting";
+            return "redirect:/admin/profile/settings";
         }
         try {
             loggedInUser.setPassword(newPassword);
             userService.updateUser(loggedInUser);
             session.setAttribute("user", loggedInUser);
             redirectAttributes.addFlashAttribute("message", "Password updated successfully.");
-            return "redirect:/admin/profile/setting";
+            return "redirect:/admin/profile/settings";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error updating password: " + e.getMessage());
-            return "redirect:/admin/profile/setting";
+            return "redirect:/admin/profile/settings";
         }
     }
 

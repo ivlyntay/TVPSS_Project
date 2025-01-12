@@ -95,7 +95,7 @@ public class UserController {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
 
-        return "school/profile/setting";  // Thymeleaf template for change password form
+        return "school/profile/settings";  // Thymeleaf template for change password form
     }
 
     // Change Password - Handle password update
@@ -114,13 +114,13 @@ public class UserController {
         // Check if the current password matches
         if (!loggedInUser.getPassword().equals(currentPassword)) {
             redirectAttributes.addFlashAttribute("error", "Current password is incorrect.");
-            return "redirect:/school/profile/setting";
+            return "redirect:/school/profile/settings";
         }
 
         // Check if the new password matches the confirm password
         if (!newPassword.equals(confirmPassword)) {
             redirectAttributes.addFlashAttribute("error", "New password and confirm password do not match.");
-            return "redirect:/school/profile/setting";
+            return "redirect:/school/profile/settings";
         }
 
         // Update the password in the database
@@ -134,10 +134,10 @@ public class UserController {
             session.setAttribute("user", loggedInUser);
 
             redirectAttributes.addFlashAttribute("message", "Password updated successfully.");
-            return "redirect:/school/profile/setting";  // Redirect to the profile page after success
+            return "redirect:/school/profile/settings";  // Redirect to the profile page after success
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error updating password: " + e.getMessage());
-            return "redirect:/school/profile/setting";  // Redirect back to change password page
+            return "redirect:/school/profile/settings";  // Redirect back to change password page
         }
     }
     
