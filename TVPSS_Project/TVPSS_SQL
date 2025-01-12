@@ -10,6 +10,8 @@ CREATE TABLE crew_member (
     ic_number VARCHAR(20) NOT NULL,
     photo VARCHAR(255) DEFAULT 'default.jpg'
 );
+
+
 CREATE TABLE program_status (
     id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(100),
