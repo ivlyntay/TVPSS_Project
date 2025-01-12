@@ -14,11 +14,11 @@
         <li th:classappend="${activePage == 'dashboard'} ? 'active'">
             <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
-        <li th:classappend="${activePage == 'userManagement'} ? 'active'">
+        <li th:classappend="${activePage == 'userList'} ? 'active'">
             <a th:href="@{/admin/user/userList}"><i class="bi bi-border-all"></i> User Management</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
-            <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
+             <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
         </li>
         <li th:classappend="${activePage == 'programStatusManagement'} ? 'active'">
             <a href="#"><i class="bi bi-bar-chart"></i> Program Status Management</a>
@@ -33,7 +33,7 @@
             <a th:href="@{/admin/profile/settings}"><i class="bi bi-gear"></i> Settings</a>
         </li>
         <li class="separator"></li>
-        <li class="logout"><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+        <li class="logout"><a th:href="@{/login}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
     </ul>
 </div>
 
