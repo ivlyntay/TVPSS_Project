@@ -34,70 +34,73 @@ body {
     align-items: start;
 }
 
-.school-logo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 .form-group {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    align-items: center;
-    margin-bottom: 16px;
-    gap: 20px;
-    font-size: 14px;
-}
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 20px;
+        }
 
-.radio-group {
-    display: flex;
-    gap: 20px;
-}
+        .form-group label {
+            min-width: 300px;
+            color: #333;
+            font-size: 16px;
+        }
 
-.radio-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+        .radio-group {
+            display: flex;
+            gap: 40px;
+        }
 
-input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #4285f4;
-}
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
 
-input[type="text"] {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-}
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4285f4;
+        }
 
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 24px;
-}
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
 
-.save-btn, .next-btn {
-    background-color: #4285f4;
-    color: white;
-    padding: 8px 24px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-}
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
 
-.next-btn {
-    margin-left: auto;
-}
+        .btn {
+            padding: 12px 32px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
 
-.next-btn:hover {
-    background-color: #3367d6;
-}
+        .save-btn {
+            background-color: #4285f4;
+            color: white;
+        }
+
+        .next-btn {
+            background-color: #4285f4;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #3367d6;
+        }
 
 h2 {
     margin-bottom: 20px;

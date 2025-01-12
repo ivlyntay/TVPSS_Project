@@ -40,6 +40,7 @@ CREATE TABLE crew_member (
     ON UPDATE CASCADE
 );
 
+<<<<<<< HEAD
 -- Insert data into the crew_member table
 INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number, user_id)
 VALUES 
@@ -75,3 +76,39 @@ CREATE TABLE content (
 INSERT INTO content (video_title, category, upload_date, video_url, school_id) VALUES
 ('Majlis Sambutan Hari Guru', 'Vlog', '2025-01-13', 'https://example.com/hari-guru', 1),
 ('PERTANDINGAN VIDEO KREATIF TVPSS', 'Educational', '2025-01-14', 'https://example.com/video-kreatif', 2);
+=======
+
+CREATE TABLE program_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    school_name VARCHAR(100),
+    status_version INT,
+    equipment_level VARCHAR(100),
+    last_edited DATE,
+    logo_status BOOLEAN,
+    studio_status BOOLEAN,
+    recording_status BOOLEAN,
+    youtube_status BOOLEAN,
+    youtube_link VARCHAR(255),
+    inside_outside_status BOOLEAN,
+    collaborate_status BOOLEAN,
+    green_screen_status BOOLEAN
+);
+
+INSERT INTO program_status (
+    school_name,
+    status_version,
+    equipment_level,
+    last_edited,
+    logo_status,
+    studio_status,
+    recording_status,
+    youtube_status,
+    youtube_link,
+    inside_outside_status,
+    collaborate_status,
+    green_screen_status
+) VALUES 
+('SEKOLAH KEBANGSAAN MAWAI', 1, 'BASIC', CURRENT_DATE, false, false, false, false, '', false, false, false),
+('SEKOLAH KEBANGSAAN EXAMPLE 2', 2, 'INTERMEDIATE', CURRENT_DATE, true, true, false, false, '', false, false, false),
+('SEKOLAH KEBANGSAAN EXAMPLE 3', 3, 'ADVANCED', CURRENT_DATE, true, true, true, true, 'https://youtube.com/channel/example', true, true, false);
+>>>>>>> Wen-Kang
