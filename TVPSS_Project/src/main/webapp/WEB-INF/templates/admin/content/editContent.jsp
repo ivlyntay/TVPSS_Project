@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Content</title>
+    <title>Edit Content</title>
     <link rel="stylesheet" href="../../css/content.css">
-    <link rel="stylesheet" href="../../css/sidebar_header.css">
+    <link rel="stylesheet" href="/TVPSS_Project/css/sidebar_header.css">
     <style>
         .container {
             display: flex;
@@ -107,11 +107,13 @@
         .submit-btn:hover {
             background: #3367d6;
         }
+        
         .alert {
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
         }
+        
         .alert-success {
             background-color: #d4edda;
             color: #155724;
@@ -123,43 +125,53 @@
     <div class="container">
         <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
         <div class="main-content">
+            <h2>Edit Content</h2>
             
-            <h2>Add New Content</h2>
-           
-           <form class="content-form" action="/TVPSS_Project/school/content/add" method="post">
-		    <div class="form-group">
-		        <label for="videoTitle">Video Name</label>
-		        <input type="text" id="videoTitle" name="videoTitle" class="form-control" required>
-		    </div>
-		
-		    <div class="form-group">
-		        <label for="category">Category</label>
-		        <select id="category" name="category" class="form-control" required>
-		            <option value="Educational">Educational</option>
-		            <option value="Awareness">Awareness</option>
-		            <option value="Vlog">Vlog</option>
-		        </select>
-		    </div>
-		
-		    <div class="form-row">
-		        <div class="form-group">
-		            <label for="uploadDate">Upload Date</label>
-		            <input type="date" id="uploadDate" name="uploadDate" class="form-control" required>
-		        </div>
-		        <div class="form-group">
-		            <label for="videoUrl">Video URL</label>
-		            <input type="text" id="videoUrl" name="videoUrl" class="form-control" required>
-		        </div>
-		    </div>
-		
-		    <input type="hidden" name="schoolId" value="1">
-		    <button type="submit" class="submit-btn">Add Now</button>
-		</form>
+            <form class="content-form" action="/TVPSS_Project/admin/content/update" method="post">
+				    <input type="hidden" name="id" th:value="${content.id}">
+				    
+			        <div class="form-group">
+			            <label for="school">School</label>
+			            <select id="school" name="schoolId" class="form-control" required>
+			                <option value="">Select School</option>
+			                <option th:each="school : ${schools}"
+			                        th:value="${school.id}"
+			                        th:text="${school.name}"
+			                        th:selected="${content.school != null && content.school.id == school.id}">
+			                </option>
+			            </select>
+			        </div>
+				
+				    <div class="form-group">
+				        <label for="videoTitle">Video Name</label>
+				        <input type="text" id="videoTitle" name="videoTitle" class="form-control" 
+				               th:value="${content.videoTitle}" required>
+				    </div>
+				
+				    <div class="form-group">
+				        <label for="category">Category</label>
+				        <select id="category" name="category" class="form-control" required>
+				            <option value="Educational" th:selected="${content.category == 'Educational'}">Educational</option>
+				            <option value="Awareness" th:selected="${content.category == 'Awareness'}">Awareness</option>
+				            <option value="Vlog" th:selected="${content.category == 'Vlog'}">Vlog</option>
+				        </select>
+				    </div>
+				
+				    <div class="form-group">
+				        <label for="uploadDate">Upload Date</label>
+				        <input type="date" id="uploadDate" name="uploadDate" class="form-control" 
+				               th:value="${#dates.format(content.uploadDate, 'yyyy-MM-dd')}" required>
+				    </div>
+				
+				    <div class="form-group">
+				        <label for="videoUrl">Video URL</label>
+				        <input type="text" id="videoUrl" name="videoUrl" class="form-control" 
+				               th:value="${content.videoUrl}" required>
+				    </div>
+				
+				    <button type="submit" class="submit-btn">Update Content</button>
+				</form>
         </div>
     </div>
-
-    <script>
-
-    </script>
 </body>
 </html>

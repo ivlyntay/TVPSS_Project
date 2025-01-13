@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,59 +107,70 @@
         .submit-btn:hover {
             background: #3367d6;
         }
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <%@ include file="sidebar_content.jsp" %>
+        <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
         <div class="main-content">
-            <%@ include file="../header_tvpss.jsp" %>
             
             <h2>Add New Content</h2>
-            
-            <form class="content-form">
-                <div class="thumbnail-upload">
-                    <div class="camera-icon">
-                        📷
-                    </div>
-                    <span class="upload-text">Upload Video Thumbnail</span>
-                </div>
-				<div class="form-group">
-                    <label for="category">School</label>
-                    <select id="category" class="form-control">
-                        <option value="">SMK Bandar Kota Tinggi</option>
-                        <option>SMK Impian Emas</option>
-                        <option>SMK Taman Pelangi</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="videoName">Video Name</label>
-                    <input type="text" id="videoName" class="form-control" placeholder="Enter video name">
-                </div>
-
-                <div class="form-group">
-                    <label for="category">Category</label>
-                    <select id="category" class="form-control">
-                        <option value="">Educational</option>
-                        <option>Awareness</option>
-                        <option>Vlog</option>
-                    </select>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="uploadDate">Uploaded Date</label>
-                        <input type="date" id="uploadDate" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="videoLink">Video Link</label>
-                        <input type="text" id="videoLink" class="form-control" placeholder="Address">
-                    </div>
-                </div>
-
-                <button type="submit" class="submit-btn">Add Now</button>
-            </form>
+           
+           <form class="content-form" action="/TVPSS_Project/admin/content/add" method="post">
+              <div class="form-group">
+		        <label for="school">School</label>
+		        <select id="school" name="schoolId" class="form-control" required>
+		            <option value="">Select School</option>
+		            <option th:each="school : ${schools}"
+		                    th:value="${school.id}"
+		                    th:text="${school.name}">
+		                School Name
+		            </option>
+		        </select>
+		    </div>
+		    <div class="form-group">
+		        <label for="videoTitle">Video Name</label>
+		        <input type="text" id="videoTitle" name="videoTitle" class="form-control" required>
+		    </div>
+		
+		    <div class="form-group">
+		        <label for="category">Category</label>
+		        <select id="category" name="category" class="form-control" required>
+		            <option value="Educational">Educational</option>
+		            <option value="Awareness">Awareness</option>
+		            <option value="Vlog">Vlog</option>
+		        </select>
+		    </div>
+		
+		    <div class="form-row">
+		        <div class="form-group">
+		            <label for="uploadDate">Upload Date</label>
+		            <input type="date" id="uploadDate" name="uploadDate" class="form-control" required>
+		        </div>
+		        <div class="form-group">
+		            <label for="videoUrl">Video URL</label>
+		            <input type="text" id="videoUrl" name="videoUrl" class="form-control" required>
+		        </div>
+		    </div>
+		
+		    <input type="hidden" name="schoolId" value="1">
+		    <button type="submit" class="submit-btn">Add Now</button>
+		</form>
         </div>
     </div>
+
+    <script>
+
+    </script>
 </body>
 </html>

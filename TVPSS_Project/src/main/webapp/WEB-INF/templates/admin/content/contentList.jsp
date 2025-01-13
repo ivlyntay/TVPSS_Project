@@ -1,14 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Content Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" href="../../css/content.css">
     <link rel="stylesheet" href="../../css/sidebar_header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        /* Previous styles remain the same */
         .container {
             display: flex;
             min-height: 100vh;
@@ -157,131 +155,147 @@
             border-color: #4285f4;
         }
     </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+        document.getElementById('uploadDate').addEventListener('change', applyFilters);
+    });
+
+    function applyFilters() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+        const categoryValue = document.getElementById('categoryFilter').value;
+        const uploadDate = document.getElementById('uploadDate').value;
+
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        
+        rows.forEach(row => {
+            const videoName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            const category = row.querySelector('td:nth-child(2)').textContent.trim();
+            const rowDate = row.querySelector('td:nth-child(3)').textContent;
+            
+            const matchesSearch = videoName.includes(searchValue);
+            const matchesCategory = !categoryValue || category === categoryValue;
+            const matchesDate = !uploadDate || rowDate.includes(uploadDate);
+
+            row.style.display = (matchesSearch && matchesCategory && matchesDate) ? '' : 'none';
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = '';
+        document.getElementById('uploadDate').value = '';
+        
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        rows.forEach(row => row.style.display = '');
+        
+        updateNoResultsMessage();
+    }
+    function editContent(id) {
+        window.location.href = '/TVPSS_Project/admin/content/edit/' + id;
+    }
+
+    function deleteContent(id) {
+        if (confirm('Are you sure you want to delete this content?')) {
+            fetch('/TVPSS_Project/admin/content/delete/' + id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the row from table
+                    const row = document.querySelector(`tr[data-content-id="${id}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                    // Show success message
+                    alert('Content deleted successfully');
+                    // Reload the page to refresh the content list
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to delete content');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete content: ' + error.message);
+            });
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="container">
-        <%@ include file="sidebar_content.jsp" %>
+        <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
         <div class="main-content">
-            <%@ include file="../header_tvpss.jsp" %>
+             <header class="header">
+                <div class="header-right">
+                    <div class="profile">
+                        <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
+                        <div class="header-profile">
+                            <span class="profile-name">Moni Roy</span><br>
+                            <span class="role">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
             
             <h2>Content Management</h2>
             
             <div class="search-controls">
-                <input type="text" class="search-input" placeholder="Search">
-                
-                <div class="filter-group">
-                    <button class="filter-btn">Filter By</button>
-                    
-                    <select class="dropdown">
-                        <option>Category</option>
-                        <option>Educational</option>
-                        <option>Awareness</option>
-                        <option>Vlog</option>
-                    </select>
-                    
-                    <select class="dropdown">
-                        <option>District</option>
-                    </select>
-                    
-                    <a href="#" class="reset-filter">Reset Filter</a>
-                </div>
-                
-                <a href="./addContent.jsp" class="add-new" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Add New</a>
-            </div>
+			    <input type="text" class="search-input" id="searchInput" placeholder="Search by video name">
+			    
+				<div class="filter-group">
+				    <label>Filter By</label>
+				    <select id="categoryFilter" class="dropdown">
+				        <option value="">All Categories</option>
+				        <option value="Educational">Educational</option>
+				        <option value="Awareness">Awareness</option>
+				        <option value="Vlog">Vlog</option>
+				    </select>
+				    
+				    <label>Upload Date</label>
+				    <input type="date" id="uploadDate" class="dropdown">
+				    
+				    <a href="#" class="reset-filter" onclick="resetFilters()">Reset Filter</a>
+				</div>
+			    
+			    <a href="/TVPSS_Project/admin/content/add" class="add-new">Add New</a>
+			</div>
+
 
             <table class="content-table">
                 <thead>
-                    <tr>
-                        <th>SCHOOL</th>
-                        <th>VIDEO NAME</th>
-                        <th>CATEGORY</th>
-                        <th>VIEWS</th>
-                        <th>LIKES</th>
-                        <th>UPLOADED DATE</th>
-                        <th>ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>SMK Bandar Kota Tinggi</td>
-                        <td>Episode 14: Studio Terbaik TVPSS (2023)</td>
-                        <td><span class="category-tag educational">Educational</span></td>
-                        <td>3150</td>
-                        <td>300</td>
-                        <td>Oct 15, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SMK Impian Emas</td>
-                        <td>Episode 29: Jom sertai TV PSS FiveOne! (2024)</td>
-                        <td><span class="category-tag awareness">Awareness</span></td>
-                        <td>4132</td>
-                        <td>4132</td>
-                        <td>Oct 10, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SMK Taman Pelangi</td>
-                        <td>PERTANDINGAN VIDEO KREATIF TVPSS</td>
-                        <td><span class="category-tag educational">Educational</span></td>
-                        <td>3121</td>
-                        <td>3121</td>
-                        <td>Oct 3, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SMK Bandar Kota Tinggi</td>
-                        <td>Majlis Sambutan Hari Guru</td>
-                        <td><span class="category-tag vlog">Vlog</span></td>
-                        <td>2200</td>
-                        <td>2200</td>
-                        <td>Sept 15, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SMK Impian Emas</td>
-                        <td>Kelengkapan TVPSS</td>
-                        <td><span class="category-tag vlog">Vlog</span></td>
-                        <td>500</td>
-                        <td>3121</td>
-                        <td>Sept 3, 2024</td>
-                        <td>
-                            <div class="action-cell">
-                                <button class="action-btn">✏️</button>
-                                <button class="action-btn">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+				    <tr>
+				        <th>SCHOOL NAME</th>
+				        <th>VIDEO TITLE</th>
+				        <th>CATEGORY</th>
+				        <th>UPLOADED DATE</th>
+				        <th>ACTION</th>
+				    </tr>
+				</thead>
+				<tbody>
+				    <tr th:each="content : ${contentList}" th:data-content-id="${content.id}">
+				        <td th:text="${content.school.name}">Sample School Name</td>
+				        <td th:text="${content.videoTitle}">Sample Video Name</td>
+				        <td>
+				            <span class="category-tag" 
+				                  th:classappend="${content.category == 'Educational' ? 'educational' : content.category == 'Awareness' ? 'awareness' : 'vlog'}"
+				                  th:text="${content.category}">Category</span>
+				        </td>
+				        <td th:text="${content.uploadDate}">Oct 15, 2024</td>
+				        <td>
+				            <div class="action-cell">
+				                <button class="action-btn" th:onclick="'editContent(' + ${content.id} + ')'"><i class="bi bi-pencil-square"></i></button>
+				                <button class="action-btn" th:onclick="'deleteContent(' + ${content.id} + ')'"><i class="bi bi-trash"></i></button>
+				            </div>
+				        </td>
+				    </tr>
+				</tbody>
             </table>
-
-            <div class="pagination">
-                <a href="#" class="page-link">«</a>
-                <a href="#" class="page-link active">1</a>
-                <a href="#" class="page-link">2</a>
-                <a href="#" class="page-link">3</a>
-                <a href="#" class="page-link">»</a>
-            </div>
         </div>
     </div>
 </body>
