@@ -45,6 +45,9 @@
                 <h3>Program Status</h3>
                 <div class="card">
                     <form id="programStatusForm" th:action="@{/school/program/program-status/save}" method="post">
+						<!-- Add a hidden input field for the ID -->
+						<input type="hidden" name="id" th:value="${program.id}" />
+						
 						<input type="hidden" name="schoolName" th:value="${school.schoolName}" />
 						<!-- Add hidden version field -->
 					    <input type="hidden" name="statusVersion" th:value="${program.statusVersion}" />

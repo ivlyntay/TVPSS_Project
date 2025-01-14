@@ -33,7 +33,7 @@
                 <div class="form-container">
                     <div class="profile-details">
                         <div class="image-upload">
-                            <img th:src="@{/img/default.jpg}" alt="User Profile" class="user-image">
+                            <img th:src="@{/img/tcher.png}" alt="User Profile" class="user-image">
                         </div>
                         <table>
                             <tr>
