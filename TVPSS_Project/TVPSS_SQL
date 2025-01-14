@@ -19,10 +19,10 @@ CREATE TABLE user (
 );
 
 -- Insert data into the user table
-INSERT INTO user (full_name, ic_number, email, contact_number, role, password)
+INSERT INTO user (full_name, ic_number, email, contact_number, role, school_name, district, password)
 VALUES
-('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', '123456'),
-('Wong Mei Ling', '754506040465', 'wml@gmail.com', '0168546482', 'schoolAdmin', '123456');
+('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', 'SMK Johor', 'ledang', '123456'),
+('Wong Mei Ling', '754506040465', 'wml@gmail.com', '0168546482', 'schoolAdmin', 'SMK Kulai', 'kulai','123456');
 
 -- Create the crew_member table referencing the user table
 CREATE TABLE crew_member (
@@ -77,8 +77,8 @@ CREATE TABLE content (
 INSERT INTO content (video_title, category, upload_date, video_url, school_id) VALUES
 ('Majlis Sambutan Hari Guru', 'Vlog', '2025-01-13', 'https://example.com/hari-guru', 1),
 ('PERTANDINGAN VIDEO KREATIF TVPSS', 'Educational', '2025-01-14', 'https://example.com/video-kreatif', 2);
-=======
 
+-- program status
 CREATE TABLE program_status (
     id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(100),
