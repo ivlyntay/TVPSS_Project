@@ -23,8 +23,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Profile Image" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">School</span>
+                            <span class="profile-name">Ali bin Abu</span><br>
+                            <span class="role">schoolAdmin</span>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
 			        <div>
 			            <div class="form-group">
 			                <label>School Name:</label>
-			                <span th:text="${school.schoolName}">SEKOLAH KEBANGSAAN MAWAI</span>
+			                <span th:text="${school.schoolName}">SMK KEBANGSAAN MAWAI</span>
 			            </div></div></div></div>
             <!-- Program Status Section -->
             <section class="program-status-section">

@@ -18,8 +18,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name">7G</span><br>
+                            <span class="role">tvpssAdmin</span>
                         </div>
                     </div>
                 </div>
@@ -43,14 +43,15 @@
                         </span>
                         <select class="filter-dropdown" name="statusVersion">
     						<option value="">Status Version</option>
-    						<option value="Version 1">Version 1</option>
-    						<option value="Version 2">Version 2</option>
+    						<option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
 						</select>
 						<select class="filter-dropdown" name="equipmentLevel">
 						    <option value="">Equipment Level</option>
-						    <option value="Level 1">Level 1</option>
-						    <option value="Level 2">Level 2</option>
-						    <option value="Level 3">Level 3</option>
+						    <option value="BASIC">BASIC</option>
+                                <option value="INTERMEDIATE">INTERMEDIATE</option>
+                                <option value="ADVANCED">ADVANCED</option>
 						</select>
 						<select class="filter-dropdown" name="lastEdited">
 						    <option value="">Last Edited</option>
@@ -112,17 +113,17 @@
                         <div class="form-group">
                             <label for="statusVersion">Status Version:</label>
                             <select id="statusVersion" name="statusVersion">
-                                <option value="Version 1">Version 1</option>
-                                <option value="Version 2">Version 2</option>
-                                <option value="Version 3">Version 3</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="equipmentLevel">Equipment Level:</label>
                             <select id="equipmentLevel" name="equipmentLevel">
-                                <option value="Level 1">Level 1</option>
-                                <option value="Level 2">Level 2</option>
-                                <option value="Level 3">Level 3</option>
+                                <option value="BASIC">BASIC</option>
+                                <option value="INTERMEDIATE">INTERMEDIATE</option>
+                                <option value="ADVANCED">ADVANCED</option>
                             </select>
                         </div>
                         <div class="modal-buttons">
@@ -207,27 +208,30 @@
 		        modal.style.display = 'none';
 		    }
 		
-		    // Reset Functionality
+		 // Reset Functionality
 		    document.querySelector('.reset-button').addEventListener('click', function () {
-		        // Reset search
+		        // Reset search bar value
 		        document.querySelector('.search-bar').value = '';
-		        
-		        // Reset filters
+
+		        // Reset all filter dropdowns to default values
 		        document.querySelectorAll('.filter-dropdown').forEach(filter => filter.value = '');
-		        
-		        // Reset table display
+
+		        // Show all rows in the table
 		        const rows = document.querySelectorAll('.status-table tbody tr');
 		        rows.forEach(row => row.style.display = '');
-		        
-		        // Reset sorting to original order
+
+		        // Reset the table rows to their original order (if sorting has occurred)
 		        const tbody = document.querySelector('.status-table tbody');
 		        const sortedRows = Array.from(rows).sort((a, b) => {
 		            const schoolA = a.cells[0].textContent.toLowerCase();
 		            const schoolB = b.cells[0].textContent.toLowerCase();
 		            return schoolA.localeCompare(schoolB);
 		        });
+
+		        // Re-append rows in original order
 		        sortedRows.forEach(row => tbody.appendChild(row));
 		    });
+
 		
 		    // Form Submission
 		    document.getElementById('editForm').onsubmit = function(e) {

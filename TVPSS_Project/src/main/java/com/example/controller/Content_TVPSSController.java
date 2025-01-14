@@ -39,7 +39,7 @@ public class Content_TVPSSController {
             model.addAttribute("content", content);
             return "school/content/viewContent";
         }
-        return "redirect:/school/content/list";
+        return "redirect:/admin/content/list";
     }
 
     @GetMapping("/add")
@@ -139,6 +139,6 @@ public class Content_TVPSSController {
     public String deleteContent(@PathVariable int id, RedirectAttributes redirectAttributes) {
         contentService.deleteContent(id);
         redirectAttributes.addFlashAttribute("message", "Content deleted successfully");
-        return "redirect:/school/content/list";
+        return "redirect:/admin/content/list";
     }
 }

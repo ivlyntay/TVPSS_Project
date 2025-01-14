@@ -229,15 +229,15 @@
 </head>
 <body>
     <div class="container">
-        <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
+        <div th:replace="~{admin_sidebar :: admin_sidebar('contentManagement')}"></div>
         <div class="main-content">
              <header class="header">
                 <div class="header-right">
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name">7G</span><br>
+                            <span class="role">tvpssAdmin</span>
                         </div>
                     </div>
                 </div>

@@ -39,7 +39,7 @@
                 
 				<!-- Profile Image Upload -->
                 <div class="image-upload">
-                    <img th:src="@{/profile_photos/{photo}(photo=${user.photo != null ? user.photo : 'default.jpg'})}" 
+                    <img th:src="@{/img/profile.png}" 
                          alt="Profile Picture" 
                          id="profile-pic" 
                          class="profile-image">
@@ -79,18 +79,19 @@
 						<div class="form-group">
 							<label for="district">District</label>
 							<select id="district" name="district" required>
-								<option value="">Select District</option>
-								<option th:value="ledang" th:selected="${user.district == 'ledang'}">Ledang</option>
-								<option th:value="segamat" th:selected="${user.district == 'segamat'}">Segamat</option>
-								<option th:value="muar" th:selected="${user.district == 'muar'}">Muar</option>
-								<option th:value="batupahat" th:selected="${user.district == 'batupahat'}">Batu Pahat</option>
-								<option th:value="kluang" th:selected="${user.district == 'kluang'}">Kluang</option>
-								<option th:value="mersing" th:selected="${user.district == 'mersing'}">Mersing</option>
-								<option th:value="pontian" th:selected="${user.district == 'pontian'}">Pontian</option>
-								<option th:value="kulaijaya" th:selected="${user.district == 'kulaijaya'}">Kulai Jaya</option>
-								<option th:value="kotatinggi" th:selected="${user.district == 'kotatinggi'}">Kota Tinggi</option>
-								<option th:value="johorbahru" th:selected="${user.district == 'johorbahru'}">Johor Bahru</option>
+							    <option value="">Select District</option>
+							    <option th:value="'Ledang'" th:selected="${user.district == 'Ledang'}">Ledang</option>
+							    <option th:value="'Segamat'" th:selected="${user.district == 'Segamat'}">Segamat</option>
+							    <option th:value="'Muar'" th:selected="${user.district == 'Muar'}">Muar</option>
+							    <option th:value="'Batu Pahat'" th:selected="${user.district == 'Batu Pahat'}">Batu Pahat</option>
+							    <option th:value="'Kluang'" th:selected="${user.district == 'Kluang'}">Kluang</option>
+							    <option th:value="'Mersing'" th:selected="${user.district == 'Mersing'}">Mersing</option>
+							    <option th:value="'Pontian'" th:selected="${user.district == 'Pontian'}">Pontian</option>
+							    <option th:value="'Kulai Jaya'" th:selected="${user.district == 'Kulai Jaya'}">Kulai Jaya</option>
+							    <option th:value="'Kota Tinggi'" th:selected="${user.district == 'Kota Tinggi'}">Kota Tinggi</option>
+							    <option th:value="'Johor Bahru'" th:selected="${user.district == 'Johor Bahru'}">Johor Bahru</option>
 							</select>
+
 						</div>
 						
 						<!-- Row 4 -->

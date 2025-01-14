@@ -59,11 +59,13 @@ public class User_TVPSSController {
         }
         User loggedInUser = (User) session.getAttribute("user");
         user.setId(loggedInUser.getId());
+        user.setRole(loggedInUser.getRole());
+        user.setPassword(loggedInUser.getPassword());
         userService.updateUser(user);
         session.setAttribute("user", user);
 
         redirectAttributes.addFlashAttribute("message", "Profile updated successfully.");
-        return "redirect:/admin/profile";
+        return "redirect:/admin/profile/profile";
     }
 
     @GetMapping("/profile/settings")

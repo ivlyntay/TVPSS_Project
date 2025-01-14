@@ -29,6 +29,34 @@ public class UserDao {
             return false;
         }
     }
+    
+ // Update a crew member
+    public void updateUser(User user) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+
+            User existingUser = session.get(User.class, user.getId());
+            if (existingUser != null) {
+                // Update user fields (customize fields as needed)
+                existingUser.setFullName(user.getFullName());
+                existingUser.setIcNumber(user.getIcNumber());
+                existingUser.setSchoolName(user.getSchoolName());
+                existingUser.setEmail(user.getEmail());
+                existingUser.setContactNumber(user.getContactNumber());
+                existingUser.setDistrict(user.getDistrict());
+                existingUser.setYoutubeLink(user.getYoutubeLink());
+                existingUser.setYoutubeChannelName(user.getYoutubeChannelName());
+
+                session.update(existingUser);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            throw e;
+        }
+    }
 
     // Find user by email
     public User findByEmail(String email) {

@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.model.Crew;
 import com.example.model.User;
 import com.example.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,31 +59,7 @@ public class UserService {
 
     // Update an existing user
     public void updateUser(User user) {
-        try {
-            User existingUser = userDao.findById(user.getId());
-            if (existingUser != null) {
-                // Update user fields (customize fields as needed)
-                existingUser.setFullName(user.getFullName());
-                existingUser.setIcNumber(user.getIcNumber());
-                existingUser.setSchoolName(user.getSchoolName());
-                existingUser.setEmail(user.getEmail());
-                existingUser.setContactNumber(user.getContactNumber());
-                existingUser.setDistrict(user.getDistrict());
-                existingUser.setYoutubeLink(user.getYoutubeLink());
-                existingUser.setYoutubeChannelName(user.getYoutubeChannelName());
-
-             // If the password is being updated, update it as well
-                if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-                    existingUser.setPassword(user.getPassword());
-                }
-                
-                // Save the updated user object
-                userDao.saveUser(existingUser);
-            }
-        } catch (Exception e) {
-            System.out.println("Error updating user: " + e.getMessage());
-            throw new RuntimeException("Error updating user");
-        }
+        userDao.updateUser(user);
     }
 
     // Retrieve all users (for user list)

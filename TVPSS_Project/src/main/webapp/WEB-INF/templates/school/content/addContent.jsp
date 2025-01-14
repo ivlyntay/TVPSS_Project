@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add New Content</title>
     <link rel="stylesheet" href="../../css/content.css">
     <link rel="stylesheet" href="../../css/sidebar_header.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         .container {
             display: flex;
@@ -124,6 +125,17 @@
         <div th:replace="~{school_sidebar :: school_sidebar('contentManagement')}"></div>
         <div class="main-content">
             
+            <header class="header">
+                <div class="header-right">
+                    <div class="profile">
+                        <img th:src="@{/img/profile.png}" alt="Profile Image" class="profile-image">
+                        <div class="header-profile">
+                            <span class="profile-name">Ali bin Abu</span><br>
+                            <span class="role">schoolAdmin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
             <h2>Add New Content</h2>
            
            <form class="content-form" action="/TVPSS_Project/school/content/add" method="post">

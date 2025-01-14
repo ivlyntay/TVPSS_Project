@@ -19,10 +19,14 @@ CREATE TABLE user (
 );
 
 -- Insert data into the user table
-INSERT INTO user (full_name, ic_number, email, contact_number, role, school_name, district, password)
+INSERT INTO user (full_name, ic_number, email, contact_number, role, school_name, district, ytbName, ytbLink, password)
 VALUES
-('Ali bin Abu', '700506040465', 'ali@gmail.com', '01610746482', 'schoolAdmin', 'SMK Johor', 'ledang', '123456'),
-('Wong Mei Ling', '754506040465', 'wml@gmail.com', '0168546482', 'schoolAdmin', 'SMK Kulai', 'kulai','123456');
+('7G', '031024101111', '7g@gmail.com', '0123456789', 'tvpssAdmin', null, null, null, null, '12345678'),
+('Ahmad bin Abu', '700506040465', 'ahmad@gmail.com', '01610746482', 'schoolAdmin', 'SMK Dato Jaafar', 'Ledang', 'TVPSS KTKK', 'www.youtube.com/@tvpsssktkk','12345678'),
+('Wong Mei Ling', '754506040465', 'wml@gmail.com', '0168546482', 'schoolAdmin', 'SMK Kulai', 'Kulai', 'TVPSS FiveOne Studio', 'www.youtube.com/@TVPSSFIVEONE','12345678'),
+('Aina binti Abu', '704505940465', 'aina@gmail.com', '0158546482', 'schoolAdmin', 'SMK Taman Molek', 'Johor Bahru', 'TVPSS SKBTP','www.youtube.com/@TVPSSSKBTP', '12345678'),
+('Alishah', '744506040465', 'alishah@gmail.com', '0148546482', 'schoolAdmin', 'SMK Taman Mount Austin', 'Johor Bahru','TVPSS SK SEKSYEN ENAM', 'www.youtube.com/@tvpssskseksyenenam1233', '12345678');
+
 
 -- Create the crew_member table referencing the user table
 CREATE TABLE crew_member (
@@ -44,7 +48,7 @@ CREATE TABLE crew_member (
 -- Insert data into the crew_member table
 INSERT INTO crew_member (full_name, role, email, contact_number, gender, ic_number, user_id)
 VALUES 
-('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 1),
+('Christine', 'Reporter', 'christ@example.com', '01110746482', 'Male', '030506040465', 3),
 ('Daniel', 'Script Writer', 'daniel@example.com', '0122717773', 'Male', '020508040213', 2);
 
 -- school table
@@ -60,7 +64,7 @@ INSERT INTO school (name, district) VALUES
     ('SMK Taman Molek', 'Johor Bahru'),
     ('SMK Taman Mount Austin', 'Johor Bahru'),
     ('SMK Taman Pelangi', 'Johor Bahru'),
-    ('SMK Taman Tun Aminah', 'Johor Bahru');
+    ('SEKOLAH KEBANGSAAN MAWAI', 'Johor Bahru');
     
 -- content table
 CREATE TABLE content (

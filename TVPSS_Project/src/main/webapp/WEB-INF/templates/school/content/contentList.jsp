@@ -238,8 +238,8 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name">Ali bin Abu</span><br>
+                            <span class="role">schoolAdmin</span>
                         </div>
                     </div>
                 </div>

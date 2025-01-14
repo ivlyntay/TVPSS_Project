@@ -62,7 +62,8 @@ public class UserController {
         try {
             User loggedInUser = (User) session.getAttribute("user");
             user.setId(loggedInUser.getId());  // Preserve the user ID
-
+            user.setRole(loggedInUser.getRole());
+            user.setPassword(loggedInUser.getPassword());
             // Debug: Print user data before update
             System.out.println("Updating user: " + user);
 

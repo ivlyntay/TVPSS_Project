@@ -18,15 +18,15 @@
                     <div class="profile">
                         <img th:src="@{/img/profile.png}" alt="Moni Roy" class="profile-image">
                         <div class="header-profile">
-                            <span class="profile-name">Moni Roy</span><br>
-                            <span class="role">Admin</span>
+                            <span class="profile-name">Ali bin Abu</span><br>
+                            <span class="role">schoolAdmin</span>
                         </div>
                     </div>
                 </div>
 
 			<div class="header-container">
         	<h2 class="page-title">Equipment Management</h2><br><br>
-        	<button class="back-btn" th:onclick="|window.location.href='@{/ProgramStatus}'|">Back</button>
+        	<button class="back-btn" th:onclick="|window.location.href='@{/school/program/ProgramStatus}'|">Back</button>
     		</div>
             <section class="cards-container">
 			    <!-- Level 1 Card -->

@@ -34,9 +34,9 @@ public class LoginController {
 
             // Redirect based on role
             if ("schoolAdmin".equals(user.getRole())) {
-                return "redirect:/school/crew/crewList"; // Redirect to school crew list
+                return "redirect:/school/content/list"; // Redirect to school crew list
             } else if ("tvpssAdmin".equals(user.getRole())) {
-                return "redirect:/admin/crew/crewList"; // Redirect to admin crew list
+                return "redirect:/admin/dashboard"; // Redirect to admin crew list
             } else {
                 model.addAttribute("message", "You don't have access to this system.");
                 return "login"; // Show login again if role doesn't match
