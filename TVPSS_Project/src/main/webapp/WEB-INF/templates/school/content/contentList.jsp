@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Content Management</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" href="../../css/content.css">
@@ -156,6 +155,79 @@
             border-color: #4285f4;
         }
     </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+        document.getElementById('uploadDate').addEventListener('change', applyFilters);
+    });
+
+    function applyFilters() {
+        const searchValue = document.getElementById('searchInput').value.toLowerCase();
+        const categoryValue = document.getElementById('categoryFilter').value;
+        const uploadDate = document.getElementById('uploadDate').value;
+
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        
+        rows.forEach(row => {
+            const videoName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
+            const category = row.querySelector('td:nth-child(2)').textContent.trim();
+            const rowDate = row.querySelector('td:nth-child(3)').textContent;
+            
+            const matchesSearch = videoName.includes(searchValue);
+            const matchesCategory = !categoryValue || category === categoryValue;
+            const matchesDate = !uploadDate || rowDate.includes(uploadDate);
+
+            row.style.display = (matchesSearch && matchesCategory && matchesDate) ? '' : 'none';
+        });
+        
+        updateNoResultsMessage();
+    }
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = '';
+        document.getElementById('uploadDate').value = '';
+        
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        rows.forEach(row => row.style.display = '');
+        
+        updateNoResultsMessage();
+    }
+    function editContent(id) {
+        window.location.href = '/TVPSS_Project/school/content/edit/' + id;
+    }
+
+    function deleteContent(id) {
+        if (confirm('Are you sure you want to delete this content?')) {
+            fetch('/TVPSS_Project/school/content/delete/' + id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the row from table
+                    const row = document.querySelector(`tr[data-content-id="${id}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+                    // Show success message
+                    alert('Content deleted successfully');
+                    // Reload the page to refresh the content list
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to delete content');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete content: ' + error.message);
+            });
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -176,28 +248,26 @@
             <h2>Content Management</h2>
             
             <div class="search-controls">
-                <input type="text" class="search-input" placeholder="Search">
-                
-                <div class="filter-group">
-                    <button class="filter-btn">Filter By</button>
-                    
-                    <select class="dropdown">
-                        <option>Category</option>
-                        <option>Educational</option>
-                        <option>Awareness</option>
-                        <option>Vlog</option>
-                    </select>
-                    
-                    <select class="dropdown">
-                        <option>District</option>
-                    </select>
-                    
-                    <a href="#" class="reset-filter">Reset Filter</a>
-                </div>
-                
-                <a href="/TVPSS_Project/school/content/add" class="add-new" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">Add New</a>
+			    <input type="text" class="search-input" id="searchInput" placeholder="Search by video name">
+			    
+				<div class="filter-group">
+				    <label>Filter By</label>
+				    <select id="categoryFilter" class="dropdown">
+				        <option value="">All Categories</option>
+				        <option value="Educational">Educational</option>
+				        <option value="Awareness">Awareness</option>
+				        <option value="Vlog">Vlog</option>
+				    </select>
+				    
+				    <label>Upload Date</label>
+				    <input type="date" id="uploadDate" class="dropdown">
+				    
+				    <a href="#" class="reset-filter" onclick="resetFilters()">Reset Filter</a>
+				</div>
+			    
+			    <a href="/TVPSS_Project/school/content/add" class="add-new">Add New</a>
+			</div>
 
-            </div>
 
             <table class="content-table">
                 <thead>
@@ -218,21 +288,13 @@
                 <td th:text="${content.uploadDate}">Oct 15, 2024</td>
                 <td>
                     <div class="action-cell">
-                        <button class="action-btn" th:onclick="'editContent(' + ${content.id} + ')'">✏️</button>
-                        <button class="action-btn" th:onclick="'deleteContent(' + ${content.id} + ')'">🗑️</button>
+                        <button class="action-btn" th:onclick="'editContent(' + ${content.id} + ')'"><i class="bi bi-pencil-square"></i> </button>
+                        <button class="action-btn" th:onclick="'deleteContent(' + ${content.id} + ')'"><i class="bi bi-trash"></i></button>
                     </div>
                 </td>
             </tr>
 </tbody>
             </table>
-
-            <div class="pagination">
-                <a href="#" class="page-link">«</a>
-                <a href="#" class="page-link active">1</a>
-                <a href="#" class="page-link">2</a>
-                <a href="#" class="page-link">3</a>
-                <a href="#" class="page-link">»</a>
-            </div>
         </div>
     </div>
 </body>

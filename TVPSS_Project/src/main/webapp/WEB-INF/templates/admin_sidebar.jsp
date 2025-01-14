@@ -12,13 +12,13 @@
     </div>
     <ul class="menu">
         <li th:classappend="${activePage == 'dashboard'} ? 'active'">
-            <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="/TVPSS_Project/admin/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li th:classappend="${activePage == 'userList'} ? 'active'">
             <a th:href="@{/admin/user/userList}"><i class="bi bi-border-all"></i> User Management</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
-             <a href="#"><i class="bi bi-journal-text"></i> Content Management</a>
+             <a href="/TVPSS_Project/admin/content/list"><i class="bi bi-journal-text"></i> Content Management</a>
         </li>
         <li th:classappend="${activePage == 'programList'} ? 'active'">
             <a th:href="@{/admin/program/programList}"><i class="bi bi-bar-chart"></i> Program Status Management</a>

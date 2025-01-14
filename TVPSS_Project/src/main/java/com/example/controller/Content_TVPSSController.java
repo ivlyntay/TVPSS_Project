@@ -15,8 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/school/content")
-public class ContentController {
+@RequestMapping("/admin/content")
+public class Content_TVPSSController {
 
     @Autowired
     private ContentService contentService;
@@ -29,7 +29,7 @@ public class ContentController {
         List<Content> contentList = contentService.getAllContent();
         model.addAttribute("contentList", contentList);
         System.out.println(contentList);
-        return "school/content/contentList";
+        return "admin/content/contentList";
     }
 
     @GetMapping("/view/{id}")
@@ -45,8 +45,9 @@ public class ContentController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("content", new Content());
-        model.addAttribute("schools", schoolService.getAllSchools());
-        return "school/content/addContent";
+        List<School> schools = schoolService.getAllSchools();
+        model.addAttribute("schools", schools);
+        return "admin/content/addContent";
     }
 
     @PostMapping("/add")
@@ -68,29 +69,31 @@ public class ContentController {
             School school = schoolService.getSchoolById(schoolId);
             if (school == null) {
                 redirectAttributes.addFlashAttribute("error", "School not found");
-                return "redirect:/school/content/add";
+                return "redirect:/admin/content/add";
             }
             
             content.setSchool(school);
             contentService.saveContent(content);
             
             redirectAttributes.addFlashAttribute("message", "Content added successfully");
-            return "redirect:/school/content/list";
+            return "redirect:/admin/content/list";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error adding content: " + e.getMessage());
-            return "redirect:/school/content/add";
+            return "redirect:/admin/content/add";
         }
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
         Content content = contentService.getContentById(id);
+        List<School> schools = schoolService.getAllSchools();
+        
         if (content != null) {
             model.addAttribute("content", content);
-            model.addAttribute("schools", schoolService.getAllSchools());
-            return "school/content/editContent";
+            model.addAttribute("schools", schools);
+            return "admin/content/editContent";
         }
-        return "redirect:/school/content/editContent";
+        return "redirect:/admin/content/list";
     }
 
     @PostMapping("/update")
@@ -103,18 +106,33 @@ public class ContentController {
         @RequestParam("schoolId") int schoolId,
         RedirectAttributes redirectAttributes) {
         
-        Content content = contentService.getContentById(id);
-        content.setVideoTitle(videoTitle);
-        content.setCategory(category);
-        content.setUploadDate(uploadDate);
-        content.setVideoUrl(videoUrl);
-        
-        School school = schoolService.getSchoolById(schoolId);
-        content.setSchool(school);
-        
-        contentService.updateContent(content);
-        redirectAttributes.addFlashAttribute("message", "Content updated successfully");
-        return "redirect:/school/content/list";
+        try {
+            Content content = contentService.getContentById(id);
+            if (content == null) {
+                redirectAttributes.addFlashAttribute("error", "Content not found");
+                return "redirect:/admin/content/list";
+            }
+            
+            School school = schoolService.getSchoolById(schoolId);
+            if (school == null) {
+                redirectAttributes.addFlashAttribute("error", "School not found");
+                return "redirect:/admin/content/edit/" + id;
+            }
+            
+            content.setVideoTitle(videoTitle);
+            content.setCategory(category);
+            content.setUploadDate(uploadDate);
+            content.setVideoUrl(videoUrl);
+            content.setSchool(school);
+            
+            contentService.updateContent(content);
+            redirectAttributes.addFlashAttribute("message", "Content updated successfully");
+            return "redirect:/admin/content/list";
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error updating content: " + e.getMessage());
+            return "redirect:/admin/content/edit/" + id;
+        }
     }
 
     @GetMapping("/delete/{id}")
