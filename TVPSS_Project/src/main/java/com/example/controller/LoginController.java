@@ -34,7 +34,7 @@ public class LoginController {
 
             // Redirect based on role
             if ("schoolAdmin".equals(user.getRole())) {
-                return "redirect:/school/content/list"; // Redirect to school crew list
+                return "redirect:/school/dashboard"; // Redirect to school crew list
             } else if ("tvpssAdmin".equals(user.getRole())) {
                 return "redirect:/admin/dashboard"; // Redirect to admin crew list
             } else {
