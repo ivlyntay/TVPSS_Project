@@ -37,4 +37,12 @@ public class ContentService {
     public void deleteContent(int id) {
         contentDao.deleteContent(id);
     }
+
+    public List<Content> getContentBySchool(int schoolId) {
+        return contentDao.getContentBySchool(schoolId);
+    }
+
+    public List<Content> getContentBySchoolName(String schoolName) {
+        return contentDao.getContentBySchoolName(schoolName);
+    }
 }

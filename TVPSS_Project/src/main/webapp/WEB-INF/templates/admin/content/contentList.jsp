@@ -154,12 +154,101 @@
             color: white;
             border-color: #4285f4;
         }
+
+		.pagination {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    gap: 8px;
+		    margin: 20px 0;
+		}
+		
+		.page-link {
+		    padding: 8px 12px;
+		    border: 1px solid #ddd;
+		    border-radius: 4px;
+		    color: #666;
+		    text-decoration: none;
+		    cursor: pointer;
+		}
+		
+		.page-link:hover {
+		    background-color: #f5f5f5;
+		}
+		
+		.page-link.active {
+		    background: #4285f4;
+		    color: white;
+		    border-color: #4285f4;
+		}
     </style>
     <script>
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    function setupPagination() {
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        const pageCount = Math.ceil(rows.length / rowsPerPage);
+        
+        // Create pagination controls
+        const paginationContainer = document.querySelector('.pagination');
+        paginationContainer.innerHTML = '';
+        
+        // Previous button
+        if (currentPage > 1) {
+            const prev = document.createElement('a');
+            prev.href = '#';
+            prev.classList.add('page-link');
+            prev.textContent = 'Previous';
+            prev.onclick = () => goToPage(currentPage - 1);
+            paginationContainer.appendChild(prev);
+        }
+        
+        // Page numbers
+        for (let i = 1; i <= pageCount; i++) {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.classList.add('page-link');
+            if (i === currentPage) link.classList.add('active');
+            link.textContent = i;
+            link.onclick = () => goToPage(i);
+            paginationContainer.appendChild(link);
+        }
+        
+        // Next button
+        if (currentPage < pageCount) {
+            const next = document.createElement('a');
+            next.href = '#';
+            next.classList.add('page-link');
+            next.textContent = 'Next';
+            next.onclick = () => goToPage(currentPage + 1);
+            paginationContainer.appendChild(next);
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        
+        // Hide all rows
+        rows.forEach(row => row.style.display = 'none');
+        
+        // Show rows for current page
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        
+        for (let i = start; i < end && i < rows.length; i++) {
+            rows[i].style.display = '';
+        }
+        
+        setupPagination();
+    }
+ // Initialize pagination on page load
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('searchInput').addEventListener('input', applyFilters);
         document.getElementById('categoryFilter').addEventListener('change', applyFilters);
         document.getElementById('uploadDate').addEventListener('change', applyFilters);
+        goToPage(1);
     });
 
     function applyFilters() {
@@ -168,6 +257,7 @@
         const uploadDate = document.getElementById('uploadDate').value;
 
         const rows = document.querySelectorAll('.content-table tbody tr:not(#noResultsRow)');
+        let visibleRows = 0;
         
         rows.forEach(row => {
             const videoName = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
@@ -177,9 +267,18 @@
             const matchesSearch = videoName.includes(searchValue);
             const matchesCategory = !categoryValue || category === categoryValue;
             const matchesDate = !uploadDate || rowDate.includes(uploadDate);
-
-            row.style.display = (matchesSearch && matchesCategory && matchesDate) ? '' : 'none';
+            
+            if (matchesSearch && matchesCategory && matchesDate) {
+                row.style.display = '';
+                visibleRows++;
+            } else {
+                row.style.display = 'none';
+            }
         });
+
+        // Reset to first page after filtering
+        currentPage = 1;
+        goToPage(1);
     }
 
     function resetFilters() {
@@ -296,6 +395,7 @@
 				    </tr>
 				</tbody>
             </table>
+            <div class="pagination"></div>
         </div>
     </div>
 </body>

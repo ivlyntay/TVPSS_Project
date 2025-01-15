@@ -74,13 +74,44 @@ CREATE TABLE content (
     upload_date DATE NOT NULL,
     video_url VARCHAR(2083) NOT NULL,
     school_id INT NOT NULL,
-    school_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (school_id) REFERENCES school(id)
 );
 
 INSERT INTO content (video_title, category, upload_date, video_url, school_id) VALUES
-('Majlis Sambutan Hari Guru', 'Vlog', '2025-01-13', 'https://example.com/hari-guru', 1),
-('PERTANDINGAN VIDEO KREATIF TVPSS', 'Educational', '2025-01-14', 'https://example.com/video-kreatif', 2);
+-- School 1 (4 videos)
+('Inspirasi Guru: Dedikasi Tanpa Batas', 'Vlog', '2025-01-11', 'https://example.com/inspirasi-guru', 1),
+('Belajar Bersama: Tips Matematik Mudah', 'Educational', '2025-01-12', 'https://example.com/tips-matematik', 1),
+('Kesedaran Alam Sekitar: Tanggungjawab Kita', 'Awareness', '2025-01-13', 'https://example.com/alam-sekitar', 1),
+('Kisah Cikgu: Semangat Tanpa Henti', 'Vlog', '2025-01-14', 'https://example.com/kisah-cikgu', 1),
+
+-- School 2 (3 videos)
+('Meniti Kejayaan: Kisah Pelajar Cemerlang', 'Vlog', '2025-01-14', 'https://example.com/kisah-cemerlang', 2),
+('Kelas Online: Panduan untuk Pelajar Baru', 'Educational', '2025-01-15', 'https://example.com/kelas-online', 2),
+('Bahaya Plastik: Kesedaran untuk Generasi Muda', 'Awareness', '2025-01-16', 'https://example.com/bahaya-plastik', 2),
+
+-- School 3 (5 videos)
+('Hari Pertama Sekolah: Pengalaman Murid', 'Vlog', '2025-01-17', 'https://example.com/hari-pertama', 3),
+('Projek Sains: Cara Membuat Gunung Berapi', 'Educational', '2025-01-18', 'https://example.com/projek-sains', 3),
+('Kesihatan Mental: Menguruskan Stres', 'Awareness', '2025-01-19', 'https://example.com/kesihatan-mental', 3),
+('Eksperimen Sains Seronok: Ais Kering', 'Educational', '2025-01-20', 'https://example.com/ais-kering', 3),
+('Lawatan Sambil Belajar: Muzium Negara', 'Vlog', '2025-01-21', 'https://example.com/muzium-negara', 3),
+
+-- School 4 (2 videos)
+('Cerita Cikgu: Inspirasi dari Bilik Darjah', 'Vlog', '2025-01-20', 'https://example.com/cerita-cikgu', 4),
+('Belajar Sejarah: Peristiwa Penting Dunia', 'Educational', '2025-01-21', 'https://example.com/sejarah-dunia', 4),
+
+-- School 5 (6 videos)
+('Sehari Bersama Pelajar: Aktiviti Harian', 'Vlog', '2025-01-23', 'https://example.com/sehari-bersama', 5),
+('Minggu Bahasa: Cara Menulis Karangan Terbaik', 'Educational', '2025-01-24', 'https://example.com/minggu-bahasa', 5),
+('Kesedaran Pemakanan Sihat: Pilihan Bijak', 'Awareness', '2025-01-25', 'https://example.com/pemakanan-sihat', 5),
+('Pengalaman Bermain Sukaneka Sekolah', 'Vlog', '2025-01-26', 'https://example.com/sukaneka', 5),
+('Projek STEM: Inovasi Masa Depan', 'Educational', '2025-01-27', 'https://example.com/projek-stem', 5),
+('Kempen Kesihatan: Imunisasi untuk Semua', 'Awareness', '2025-01-28', 'https://example.com/imunisasi', 5),
+
+-- School 6 (3 videos)
+('Jelajah Sekolah: Melawat Fasiliti Kami', 'Vlog', '2025-01-26', 'https://example.com/jelajah-sekolah', 6),
+('Sains Menarik: Eksperimen Mudah di Rumah', 'Educational', '2025-01-27', 'https://example.com/sains-menarik', 6),
+('Keselamatan Jalan Raya: Panduan untuk Murid', 'Awareness', '2025-01-28', 'https://example.com/keselamatan-jalan', 6);
 
 -- program status
 CREATE TABLE program_status (

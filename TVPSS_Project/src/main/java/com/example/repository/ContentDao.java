@@ -70,4 +70,20 @@ public class ContentDao {
             throw e;
         }
     }
+    
+    public List<Content> getContentBySchool(int schoolId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Content WHERE school.id = :schoolId", Content.class)
+                    .setParameter("schoolId", schoolId)
+                    .list();
+        }
+    }
+    public List<Content> getContentBySchoolName(String schoolName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery(
+                "FROM Content c WHERE c.school.name = :schoolName", Content.class)
+                .setParameter("schoolName", schoolName)
+                .list();
+        }
+    }
 }

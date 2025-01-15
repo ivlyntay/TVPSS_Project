@@ -12,7 +12,7 @@
     </div>
     <ul class="menu">
         <li th:classappend="${activePage == 'dashboard'} ? 'active'">
-            <a href="#"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a th:href="@{/school/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a>
         </li>
         <li th:classappend="${activePage == 'contentManagement'} ? 'active'">
             <a th:href="@{/school/content/list}"><i class="bi bi-journal-text"></i> Content Management</a>

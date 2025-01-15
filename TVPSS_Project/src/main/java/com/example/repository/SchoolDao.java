@@ -70,4 +70,12 @@ public class SchoolDao {
             throw e;
         }
     }
+    
+    public School findByName(String name) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM School WHERE name = :name", School.class)
+                    .setParameter("name", name)
+                    .uniqueResult();
+        }
+    }
 }

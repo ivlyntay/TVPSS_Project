@@ -37,4 +37,8 @@ public class SchoolService {
     public void deleteSchool(int id) {
         schoolDao.deleteSchool(id);
     }
+    
+    public School findBySchoolName(String name) {
+        return schoolDao.findByName(name);
+    }
 }

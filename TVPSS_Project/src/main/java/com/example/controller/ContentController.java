@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.Content;
 import com.example.model.School;
+import com.example.model.User;
 import com.example.service.ContentService;
 import com.example.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/school/content")
 public class ContentController {
@@ -25,10 +28,17 @@ public class ContentController {
     private SchoolService schoolService;
 
     @GetMapping("/list")
-    public String listContent(Model model) {
-        List<Content> contentList = contentService.getAllContent();
+    public String listContent(Model model, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        String schoolName = loggedInUser.getSchoolName();
+        School school = schoolService.findBySchoolName(schoolName);
+        List<Content> contentList = contentService.getContentBySchool(school.getId());
+        
         model.addAttribute("contentList", contentList);
-        System.out.println(contentList);
         return "school/content/contentList";
     }
 
@@ -55,23 +65,32 @@ public class ContentController {
         @RequestParam("category") String category,
         @RequestParam("uploadDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date uploadDate,
         @RequestParam("videoUrl") String videoUrl,
-        @RequestParam("schoolId") int schoolId,
+        HttpSession session,
         RedirectAttributes redirectAttributes) {
         
         try {
-            Content content = new Content();
-            content.setVideoTitle(videoTitle);
-            content.setCategory(category);
-            content.setUploadDate(uploadDate);
-            content.setVideoUrl(videoUrl);
-            
-            School school = schoolService.getSchoolById(schoolId);
+            // Get logged in user
+            User loggedInUser = (User) session.getAttribute("user");
+            if (loggedInUser == null) {
+                redirectAttributes.addFlashAttribute("error", "Please login first");
+                return "redirect:/login";
+            }
+
+            // Get school by user's school name
+            String schoolName = loggedInUser.getSchoolName();
+            School school = schoolService.findBySchoolName(schoolName);
             if (school == null) {
                 redirectAttributes.addFlashAttribute("error", "School not found");
                 return "redirect:/school/content/add";
             }
             
+            Content content = new Content();
+            content.setVideoTitle(videoTitle);
+            content.setCategory(category);
+            content.setUploadDate(uploadDate);
+            content.setVideoUrl(videoUrl);
             content.setSchool(school);
+            
             contentService.saveContent(content);
             
             redirectAttributes.addFlashAttribute("message", "Content added successfully");
